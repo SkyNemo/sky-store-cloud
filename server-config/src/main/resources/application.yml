@@ -1,0 +1,45 @@
+server:
+  port: 18088
+spring:
+  application:
+    name: server-config
+  cloud:
+    config:
+      server:
+        git:
+          # 配置Git仓库地址
+          uri: https://github.com/SkyNemo/sky-store-cloud/config-repo
+          # Git仓库账号
+          username:
+          # Git仓库密码
+          password:
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+security:
+  basic:
+    # 开启基于http basic 的认证
+    enabled: true
+  user:
+    # 配置登录账号
+    name: user
+    # 配置登录密码
+    password: springcloud
+## INFO
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@
