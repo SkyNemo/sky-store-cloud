@@ -2,17 +2,19 @@ server:
   port: 18088
 spring:
   application:
-    name: server-config
+    name: microservice-config-server
   cloud:
     config:
       server:
         git:
           # 配置Git仓库地址
-          uri: https://github.com/SkyNemo/sky-store-cloud/config-repo
+          uri: https://github.com/SkyNemo/sky-store-cloud
+          search-paths: config-repo
           # Git仓库账号
           username:
           # Git仓库密码
           password:
+          clone-on-start: true
     bus:
       trace:
         enabled: true
