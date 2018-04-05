@@ -1,8 +1,8 @@
 server:
-  port: 8031
+  port: 18031
 spring:
   application:
-    name: microservice-hystrix-turbine-mq
+    name: server-turbine
   rabbitmq:
     host: localhost
     port: 5672
@@ -15,7 +15,7 @@ eureka:
   instance:
     prefer-ip-address: true
     # 务必与server.port一致
-    non-secure-port: 8031
+    non-secure-port: 18031
 management:
   # 配置spring boot actuator端口
   port: 8032
