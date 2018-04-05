@@ -6,6 +6,3 @@ spring:
     port: 5672
     username: guest
     password: guest
-management:
-  # 配置spring boot actuator端口
-  port: 18031
