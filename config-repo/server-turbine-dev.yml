@@ -1,5 +1,5 @@
 server:
-  port: 18032
+  port: 8031
 spring:
   application:
     name: server-turbine
@@ -15,7 +15,7 @@ eureka:
   instance:
     prefer-ip-address: true
     # 务必与server.port一致
-    non-secure-port: 18032
+    non-secure-port: 8031
 management:
   # 配置spring boot actuator端口
   port: 8032
