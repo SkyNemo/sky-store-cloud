@@ -1,0 +1,26 @@
+server:
+  port: 8031
+spring:
+  application:
+    name: server-turbine    # 对应config server所获取的配置文件的{application}
+  cloud:
+    config:
+      username: user
+      password: springcloud
+      profile: dev
+      label: master
+      discovery:
+        enabled: true                                  # 表示使用服务发现组件中的Config Server，而不自己指定Config Server的uri，默认false
+        service-id: server-config                    # 指定Config Server在服务发现中的serviceId，默认是configserver
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    # 务必与server.port一致
+    non-secure-port: 8031
+management:
+  # 配置spring boot actuator端口
+  port: 18031
