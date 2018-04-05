@@ -2,7 +2,7 @@ server:
   port: 18088
 spring:
   application:
-    name: microservice-config-server
+    name: server-config
   cloud:
     config:
       server:
@@ -27,6 +27,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
 
 security:
   basic:
