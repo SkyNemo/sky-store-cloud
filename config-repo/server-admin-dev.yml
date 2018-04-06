@@ -1,0 +1,26 @@
+spring:
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      turbine:
+        clusters: default
+        location: server-turbine
+      monitor:
+        read-timeout: 16384
+
+
+endpoints:
+  health:
+    sensitive: false
+    enabled: true
+  actuator:
+    enabled: true
+    sensitive: false
+  beans:
+    sensitive: false
+    enabled: true
+
+logging:
+  file: "logs/boot-admin-sample.log"
+
