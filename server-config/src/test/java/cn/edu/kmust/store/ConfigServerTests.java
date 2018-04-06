@@ -1,4 +1,4 @@
-package cn.edu.kmust;
+package cn.edu.kmust.store;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

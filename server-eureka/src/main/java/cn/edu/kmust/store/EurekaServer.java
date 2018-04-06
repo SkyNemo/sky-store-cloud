@@ -1,4 +1,4 @@
-package cn.edu.kmust;
+package cn.edu.kmust.store;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
