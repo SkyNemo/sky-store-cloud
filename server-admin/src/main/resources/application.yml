@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: server-admin    # 对应config server所获取的配置文件的{application}
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      turbine:
+        clusters: default
+        location: server-turbine
+      monitor:
+        read-timeout: 16384
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+
+endpoints:
+  health:
+    sensitive: false
+    enabled: true
+  actuator:
+    enabled: true
+    sensitive: false
+  beans:
+    sensitive: false
+    enabled: true
+
+
+
+management:
+  security:
+    enabled: false
+
+server:
+  port: 5000
+#security.basic.enabled: false
+#security:
+#  user:
+#    name: admin
+#    password: 123456
+
+logging:
+  file: "logs/boot-admin-sample.log"
+
+
+
+
