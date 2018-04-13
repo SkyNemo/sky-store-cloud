@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+</head>
+<body>
+<div th:fragment="top">
+
+    <nav class="top ">
+        <div class="top_middle">
+
+            <a href="${contextPath}">
+                <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-home redColor"></span>
+                商城首页
+            </a>
+
+            <span>您好，欢迎来到sky商城</span>
+
+            <div th:if="${user != null}" th:remove="tag">
+                <a th:text="${name}" th:href="@{/toLogin}"></a>
+                <a th:href="@{/forelogout}">退出</a>
+            </div>
+
+            <div th:if="${user == null}" th:remove="tag">
+                <a th:href="@{/toLogin}">请登录</a>
+                <a th:href="@{/toRegister}">免费注册</a>
+            </div>
+
+
+            <span class="pull-right">
+			    <a href="forebought">我的订单</a>
+			    <a href="forecart">
+			    <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-shopping-cart redColor"></span>
+			        购物车<strong>0</strong>件</a>
+		    </span>
+        </div>
+    </nav>
+</div>
+</body>
+</html>
+

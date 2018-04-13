@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head th:include="layout :: htmlhead" th:with="title='Home'">
+    <meta charset="UTF-8"/>
+    <title>Home</title>
+</head>
+
+<body layout:fragment="loginPage">
+
+
+<form method="post" th:action="@{/register}" class="registerForm">
+
+
+    <div class="registerDiv">
+
+        <div class="registerErrorMessageDiv">
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                <span class="errorMessage">
+                </span>
+            </div>
+        </div>
+
+
+        <table class="registerTable" align="center">
+            <tr>
+                <td class="registerTip registerTableLeftTD">设置会员名</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="registerTableLeftTD">登陆名</td>
+                <td class="registerTableRightTD"><input id="name" name="name" placeholder="会员名一旦设置成功，无法修改"/></td>
+            </tr>
+            <tr>
+                <td class="registerTip registerTableLeftTD">设置登陆密码</td>
+                <td class="registerTableRightTD">登陆时验证，保护账号信息</td>
+            </tr>
+            <tr>
+                <td class="registerTableLeftTD">登陆密码</td>
+                <td class="registerTableRightTD"><input id="password" name="password" type="password"
+                                                        placeholder="设置你的登陆密码"/></td>
+            </tr>
+            <tr>
+                <td class="registerTableLeftTD">密码确认</td>
+                <td class="registerTableRightTD"><input id="repeatpassword" type="password" placeholder="请再次输入你的密码"/>
+                </td>
+            </tr>
+
+            <div th:if="${errorMsg != null}" class="alter later-danger" role="alert"
+                 th:text="${errorMsg}"></div>
+
+            <tr>
+                <td colspan="2" class="registerButtonTD">
+                    <a>
+                        <button id="btn">提 交</button>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<script>
+
+
+    $(function () {
+
+        function checkName() {
+            if (0 == $("#name").val().length) {
+                $("span.errorMessage").html("请输入用户名");
+                $("div.registerErrorMessageDiv").css("visibility", "visible");
+                $("#btn").attr("disabled", "disabled");
+                return false;
+            }
+
+            $("#btn").removeAttr("disabled");
+            return true;
+        }
+
+        function checkPassword() {
+
+            var pwdLength = $("#password").val().length;
+
+            if (0 == pwdLength) {
+                $("span.errorMessage").html("请输入密码");
+                $("div.registerErrorMessageDiv").css("visibility", "visible");
+                $("#btn").attr("disabled", "disabled");
+                return false;
+            }
+
+            if (6 > pwdLength) {
+                $("span.errorMessage").html("密码长度应大于等于6位");
+                $("div.registerErrorMessageDiv").css("visibility", "visible");
+                $("#btn").attr("disabled", "disabled");
+                return false;
+            }
+
+            if (pwdLength > 20) {
+                $("span.errorMessage").html("密码长度应小于等于20位");
+                $("div.registerErrorMessageDiv").css("visibility", "visible");
+                $("#btn").attr("disabled", "disabled");
+                return false;
+            }
+
+            $("#btn").removeAttr("disabled");
+            return true;
+
+        }
+
+        function checkRepeatPwd() {
+
+            if (0 == $("#repeatpassword").val().length) {
+                $("span.errorMessage").html("请输入重复密码");
+                $("div.registerErrorMessageDiv").css("visibility", "visible");
+                $("#btn").attr("disabled", "disabled");
+                return false;
+            }
+            if ($("#password").val() != $("#repeatpassword").val()) {
+                $("span.errorMessage").html("两次密码不一致");
+                $("div.registerErrorMessageDiv").css("visibility", "visible");
+                $("#btn").attr("disabled", "disabled");
+                return false;
+            }
+
+            $("#btn").removeAttr("disabled");
+            return true;
+
+        }
+
+
+        $("#name").blur(function () {
+            checkName();
+        });
+
+        $("#password").blur(function () {
+            checkPassword();
+        });
+        $("#repeatpassword").blur(function () {
+            checkRepeatPwd();
+        });
+
+        $(".registerForm").submit(function () {
+
+            return true;
+        });
+
+        $("#btn").click(function () {
+            $(".registerForm").submit();
+        })
+
+    })
+</script>
+
+</body>
+
+</html>
