@@ -1,9 +1,9 @@
-package cn.edu.kmust.store.user.user.controller;
+package cn.edu.kmust.store.user.controller;
 
 
-import cn.edu.kmust.store.user.user.entity.User;
-import cn.edu.kmust.store.user.user.param.UserParam;
-import cn.edu.kmust.store.user.user.service.UserService;
+import cn.edu.kmust.store.user.entity.User;
+import cn.edu.kmust.store.user.param.UserParam;
+import cn.edu.kmust.store.user.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

@@ -1,6 +1,6 @@
-package cn.edu.kmust.store.user.user.repository;
+package cn.edu.kmust.store.user.repository;
 
-import cn.edu.kmust.store.user.user.entity.User;
+import cn.edu.kmust.store.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

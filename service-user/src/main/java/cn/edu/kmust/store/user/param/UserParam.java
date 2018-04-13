@@ -1,4 +1,4 @@
-package cn.edu.kmust.store.user.user.param;
+package cn.edu.kmust.store.user.param;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;

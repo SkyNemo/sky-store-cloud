@@ -1,4 +1,4 @@
-package cn.edu.kmust.store.user.user.entity;
+package cn.edu.kmust.store.user.entity;
 
 
 import javax.persistence.Column;

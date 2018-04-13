@@ -1,8 +1,7 @@
 package cn.edu.kmust.store.user.service;
 
 
-import cn.edu.kmust.store.user.user.entity.User;
-import cn.edu.kmust.store.user.user.service.UserService;
+import cn.edu.kmust.store.user.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

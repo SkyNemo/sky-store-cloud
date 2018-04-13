@@ -1,10 +1,10 @@
-package cn.edu.kmust.store.user.user.service.impl;
+package cn.edu.kmust.store.user.service.impl;
 
 
 
-import cn.edu.kmust.store.user.user.entity.User;
-import cn.edu.kmust.store.user.user.repository.UserRepository;
-import cn.edu.kmust.store.user.user.service.UserService;
+import cn.edu.kmust.store.user.entity.User;
+import cn.edu.kmust.store.user.repository.UserRepository;
+import cn.edu.kmust.store.user.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

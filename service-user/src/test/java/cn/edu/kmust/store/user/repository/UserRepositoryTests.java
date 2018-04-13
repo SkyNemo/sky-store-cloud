@@ -1,8 +1,7 @@
 package cn.edu.kmust.store.user.repository;
 
 
-import cn.edu.kmust.store.user.user.entity.User;
-import cn.edu.kmust.store.user.user.repository.UserRepository;
+import cn.edu.kmust.store.user.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
