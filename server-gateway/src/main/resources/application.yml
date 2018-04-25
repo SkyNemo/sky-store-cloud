@@ -1,0 +1,27 @@
+server:
+  port: 18040
+spring:
+  application:
+    name: server-gateway
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+zuul:
+  #全部服务忽略敏感头(全部服务都可以传递cookie)
+  sensitive-headers:
+  max:
+    host:
+      connections: 500
+  host:
+    socket-timeout-millis: 30000
+    connect-timeout-millis: 30000
+

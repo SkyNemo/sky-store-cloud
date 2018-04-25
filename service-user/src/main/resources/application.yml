@@ -3,6 +3,17 @@ server:
 spring:
   application:
     name: service-user
+  sleuth:
+    sampler:
+      percentage: 1.0
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  zipkin:
+    rabbitmq:
+      queue: zipkin
 #####################################################################################################
 # mysql 属性配置
   datasource:
@@ -16,8 +27,32 @@ spring:
       ddl-auto: update
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: true
   thymeleaf:
     cache: false
+  # Reids服务
+  redis:
+    # Redis 数据库索引（默认为0）
+    database: 0
+    # Redis 服务器地址
+    host: localhost
+    # Redis 服务器连接端口
+    port: 6379
+    # Redis 服务器连接密码（默认为空）
+    password: ''
+    # 连接超时时间（毫秒）
+    timeout: 10000
+    pool:
+      # 连接池最大连接数（使用负值表示没有限制）
+      max-active: 8
+      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: -1
+      # 连接池中的最大空闲连接
+      max-idle: 8
+      # 连接池中的最小空闲连接
+      min-idle: 0
+
+
 #####################################################################################################
 # Eureka服务器配置
 eureka:
@@ -26,13 +61,19 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
 #####################################################################################################
 # 打印日志
 logging:
   level:
     root: INFO
-    org.hibernate: INFO
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.hibernate.type.descriptor.sql.BasciExtractor: TRACE
+    org.springframework.cloud.netflix.feign: INFO
 #####################################################################################################
+## INFO
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@

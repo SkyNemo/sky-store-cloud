@@ -37,5 +37,13 @@ public class UserRepositoryTests {
     }
 
 
+    @Test
+    public void testGet(){
+
+        User user = userRepository.getOne(8L);
+
+    }
+
+
 
 }
