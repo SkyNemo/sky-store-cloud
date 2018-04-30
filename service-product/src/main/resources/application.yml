@@ -79,5 +79,5 @@ info:
 #Feign默认是不开启Hystrix的。
 feign:
   hystrix:
-    enabled: trues
+    enabled: true
 

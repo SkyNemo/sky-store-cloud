@@ -10,6 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +62,7 @@ public class UserController {
             return "login";
         } else {
             HttpSession session = request.getSession();
-            session.setAttribute("user",user.getId().toString() + " " + user.getName().toString());
+            session.setAttribute("user", user.getId().toString() + " " + user.getName().toString());
             return "redirect:http://localhost:18040/service-product/";
         }
 
@@ -103,9 +105,38 @@ public class UserController {
 
 
     @RequestMapping("logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute("user");
         return "login";
     }
+
+
+    @RequestMapping("/ajaxLogin")
+    @ResponseBody
+    public String ajaxLogin(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        String password  =request.getParameter("password");
+
+        User user = userService.selectUserByNameAndPassword(name, password);
+        if (user == null) {
+            return "fail";
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user.getId().toString() + " " + user.getName().toString());
+            return "success";
+        }
+    }
+
+
+    @RequestMapping("checkLogin")
+    @ResponseBody
+    public String checkLogin(HttpSession session){
+        String userInfo = (String) session.getAttribute("user");
+        if(null!=userInfo && 0 < userInfo.length()){
+            return "success";
+        }
+        return "fail";
+    }
+
 
 }

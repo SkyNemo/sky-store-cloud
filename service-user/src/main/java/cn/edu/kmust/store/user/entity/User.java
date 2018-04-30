@@ -15,7 +15,7 @@ public class User implements Serializable{
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
 
     @Column(unique = true)
@@ -52,7 +52,7 @@ public class User implements Serializable{
                 '}';
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -25,8 +25,6 @@ public class CategoryController {
 
         List<Category> categories = categoryService.findAllCategory();
 
-        System.out.println(categories.size());
-
         return categories;
     }
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head th:include="layout :: htmlhead" th:with="title='Home'">
+    <meta charset="UTF-8"/>
+    <title>BUY</title>
+
+
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <div class="aliPayPageDiv">
+        <div class="aliPayPageLogo">
+            <img class="pull-left" src="img/site/simpleLogo.png"/>
+            <div style="clear:both"></div>
+        </div>
+
+        <div>
+            <span class="confirmMoneyText">扫一扫付款（元）</span>
+            <span class="confirmMoney" th:text="|￥ ${#numbers.formatDecimal(order.total, 0 ,2)}|"></span>
+
+                <!--
+		￥<fmt:formatNumber type="number" value="${param.total}" minFractionDigits="2"/>
+                -->
+
+        </div>
+
+        <div>
+            <img class="aliPayImg" src="img/site/alipay2wei.png"/>
+        </div>
+        <form id="orderForm" th:action="@{/service-order/confirmPay}" method="post" th:if="${order != null}">
+            <input type="hidden" th:name="id" th:value="${order.id}"/>
+            <input type="hidden" th:name="total" th:value="${order.total}"/>
+        </form>
+
+
+
+        <div>
+            <a href="#">
+                <button class="confirmPay">确认支付</button>
+            </a>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        $(function () {
+            $(".confirmPay").click(function () {
+                $("#orderForm").submit();
+            })
+
+        })
+    </script>
+
+</div>
+
+</body>
+</html>

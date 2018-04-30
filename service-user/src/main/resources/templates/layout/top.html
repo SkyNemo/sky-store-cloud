@@ -32,10 +32,18 @@
 
 
             <span class="pull-right">
-			    <a href="forebought">我的订单</a>
-			    <a href="forecart">
-			    <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-shopping-cart redColor"></span>
-			        购物车<strong>0</strong>件</a>
+                <a th:href="@{/service-user/toLogin}" th:if="${session.user == null}">我的订单</a>
+			    <a th:href="@{/service-order/order}" th:if="${session.user != null}">我的订单</a>
+
+			    <a th:href="@{/service-order/shoppingCart}" th:if="${session.user != null}">
+			        <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-shopping-cart redColor"></span>
+			            购物车
+                </a>
+			    <a th:href="@{/service-user/toLogin}" th:if="${session.user == null}">
+			        <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-shopping-cart redColor"></span>
+			            购物车
+                </a>
+
 		    </span>
         </div>
     </nav>

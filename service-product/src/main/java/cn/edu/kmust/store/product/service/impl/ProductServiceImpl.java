@@ -1,9 +1,13 @@
 package cn.edu.kmust.store.product.service.impl;
 
-import cn.edu.kmust.store.product.entity.Category;
-import cn.edu.kmust.store.product.entity.Product;
-import cn.edu.kmust.store.product.entity.ProductImage;
+import cn.edu.kmust.store.product.client.CategoryFeignClient;
+import cn.edu.kmust.store.product.client.PropertyFeignClient;
+import cn.edu.kmust.store.product.client.PropertyValueFeignClient;
+import cn.edu.kmust.store.product.client.ReviewFeignClient;
+import cn.edu.kmust.store.product.entity.*;
 import cn.edu.kmust.store.product.param.CategoryHomeVo;
+import cn.edu.kmust.store.product.param.ProductDetailVo;
+import cn.edu.kmust.store.product.param.ProductDto;
 import cn.edu.kmust.store.product.param.ProductHomeVo;
 import cn.edu.kmust.store.product.repository.ProductImageRepository;
 import cn.edu.kmust.store.product.repository.ProductRepository;
@@ -14,13 +18,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
+
+
+    @Resource
+    private ReviewFeignClient reviewFeignClient;
+
+    @Resource
+    private PropertyValueFeignClient propertyValueFeignClient;
+
+    @Resource
+    private PropertyFeignClient propertyFeignClient;
+
+    @Resource
+    private CategoryFeignClient categoryFeignClient;
 
 
     @Autowired
@@ -29,16 +49,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductImageRepository productImageRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    public Product getProductById(Integer id) {
 
-        Product product = productRepository.findOne(id);
-
-        return product;
+    public void fillProductDtoVo(Product product, ProductDto productDto) {
+        BeanUtils.copyProperties(product, productDto);
+        productDto.setProductImageId(productImageRepository.findByProductIdAndTypeOrderByIdDesc(product.getId(), ProductImageService.TYPE_SINGLE).get(0).getId());
     }
 
-    @Override
     public void fillCategoryHomeVo(Category category, CategoryHomeVo categoryHomeVo) {
 
         List<Product> productList = productRepository.findByCategoryId(category.getId());
@@ -72,7 +88,6 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    @Override
     public void fillCategoryHomeVoList(List<Category> categoryList, List<CategoryHomeVo> categoryHomeVoList) {
 
         IntStream.range(0, categoryList.size()).forEach(i -> categoryHomeVoList.add(new CategoryHomeVo()));
@@ -80,6 +95,75 @@ public class ProductServiceImpl implements ProductService {
         IntStream.range(0, categoryList.size())
                 .forEach(i -> this.fillCategoryHomeVo(categoryList.get(i), categoryHomeVoList.get(i)));
 
+    }
+
+    @Override
+    public ProductDetailVo getProductDetailVoById(Integer productId) {
+
+        Product product = productRepository.findOne(productId);
+
+        ProductDetailVo productDetailVo = new ProductDetailVo();
+
+        BeanUtils.copyProperties(product, productDetailVo);
+
+        return productDetailVo;
+    }
+
+
+    @Override
+    public void setProductDetailVoReviews(ProductDetailVo productDetailVo) {
+
+        productDetailVo.setReviews(this.reviewFeignClient.findByProductId(productDetailVo.getId()));
+
+    }
+
+    @Override
+    public void setProductDetailVoPropertyAndValue(ProductDetailVo productDetailVo) {
+        // 设置属性以及属性值
+
+        Map<String, String> propertyAndValueMap = new HashMap<String, String>();
+
+        List<PropertyValue> propertyValues = propertyValueFeignClient.findByProductId(productDetailVo.getId());
+
+        List<Property> properties = propertyFeignClient.findByCategoryId(productDetailVo.getCategoryId());
+
+        if ((propertyValues != null) && (properties != null)) {
+
+            for (int i = 0; i < properties.size() - 1; i++) {
+                propertyAndValueMap.put(properties.get(i).getName(), propertyValues.get(i).getValue());
+            }
+        }
+        productDetailVo.setPropertyAndValueMap(propertyAndValueMap);
+
+    }
+
+    @Override
+    public List<CategoryHomeVo> getAllCategoryHomeVoList() {
+
+        List<Category> categories = categoryFeignClient.findAllCategory();
+
+        List<CategoryHomeVo> categoryHomeVos = null;
+
+        if (categories != null) {
+
+            categoryHomeVos = new ArrayList<>(categories.size());
+            this.fillCategoryHomeVoList(categories, categoryHomeVos);
+        }
+
+
+        return categoryHomeVos;
+    }
+
+    @Override
+    public ProductDto getProductDtoById(Integer productId) {
+
+        Product product = productRepository.findOne(productId);
+
+        ProductDto productDto = new ProductDto();
+
+        this.fillProductDtoVo(product, productDto);
+
+        return productDto;
     }
 
     public void fillCategoryHomeVoByRow(CategoryHomeVo categoryHomeVo) {
@@ -109,7 +193,6 @@ public class ProductServiceImpl implements ProductService {
 
                         int fromIndex = i * ProductService.BLOCK_SIZE;
                         int toIndex = fromIndex + ProductService.BLOCK_SIZE;
-                        System.out.println("fromIndex=" + fromIndex + ", toIndex=" + toIndex);
                         productByRow.add(productHomeVoList.subList(fromIndex, toIndex));
 
                     }

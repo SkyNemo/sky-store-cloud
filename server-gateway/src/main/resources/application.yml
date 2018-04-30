@@ -22,6 +22,16 @@ zuul:
     host:
       connections: 500
   host:
-    socket-timeout-millis: 30000
-    connect-timeout-millis: 30000
+    socket-timeout-millis: 3000
+    connect-timeout-millis: 5000
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 5000
+ribbon:
+  ReadTimeOut: 60000
+  SocketTimeOut: 60000
 

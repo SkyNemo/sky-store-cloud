@@ -145,6 +145,7 @@
 		</dependency>
 
 
+		<!--zipkin-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zipkin</artifactId>
@@ -155,6 +156,11 @@
 			<artifactId>spring-rabbit</artifactId>
 		</dependency>
 
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 
 
 	</dependencies>

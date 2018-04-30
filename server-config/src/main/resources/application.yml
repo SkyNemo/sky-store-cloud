@@ -8,7 +8,7 @@ spring:
       server:
         git:
           # 配置Git仓库地址
-          uri: https://github.com/SkyNemo/sky-store-cloud
+          uri: https://github.com/SkyNemo/sky-store-cloud-config
           search-paths: config-repo
           # Git仓库账号
           username:
@@ -29,7 +29,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
-
 security:
   basic:
     # 开启基于http basic 的认证

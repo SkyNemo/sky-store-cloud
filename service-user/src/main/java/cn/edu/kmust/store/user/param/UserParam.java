@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserParam {
 
-    private Long id;
+    private Integer id;
 
     @NotEmpty(message = "用户名不能为空")
     private String name;
@@ -15,11 +15,11 @@ public class UserParam {
     private String password;
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

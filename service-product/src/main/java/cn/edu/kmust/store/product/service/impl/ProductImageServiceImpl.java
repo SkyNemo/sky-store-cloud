@@ -1,6 +1,7 @@
 package cn.edu.kmust.store.product.service.impl;
 
 import cn.edu.kmust.store.product.entity.ProductImage;
+import cn.edu.kmust.store.product.param.ProductDetailVo;
 import cn.edu.kmust.store.product.repository.ProductImageRepository;
 import cn.edu.kmust.store.product.service.ProductImageService;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,12 @@ public class ProductImageServiceImpl implements ProductImageService {
 
 
     @Override
-    @Transactional(readOnly = true)
-    public ProductImage getProductImageById(Integer id) {
+    public void setProductDetailVoImage(ProductDetailVo productDetailVo) {
+        productDetailVo.setDetailImages(this.getDetailProductImageByProductId(productDetailVo.getId()));
+        List<ProductImage> productImages = this.getSingleProductImageByProductId(productDetailVo.getId());
+        productDetailVo.setSingleImages(productImages);
+        productDetailVo.setFirstProductImage(productImages.get(0));
 
-        ProductImage findOne = productImageRepository.findOne(id);
-
-        return findOne;
     }
 
     @Override
