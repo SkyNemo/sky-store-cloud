@@ -18,9 +18,6 @@ public class Review implements Serializable{
     @Column
     private String content;
 
-    @Column(name = "cid")
-    private Integer categoryId;
-
     @Column(name = "pid")
     private Integer productId;
 
@@ -43,14 +40,6 @@ public class Review implements Serializable{
         this.content = content;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public Integer getProductId() {
         return productId;
     }
@@ -65,5 +54,13 @@ public class Review implements Serializable{
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
     }
 }

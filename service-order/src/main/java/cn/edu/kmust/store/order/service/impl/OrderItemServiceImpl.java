@@ -167,4 +167,12 @@ public class OrderItemServiceImpl implements OrderItemService {
         return true;
     }
 
+    @Override
+    public Integer countProductSale(Integer productId) {
+
+        Integer count = orderItemRepository.countByProductId(productId);
+
+        return count;
+    }
+
 }

@@ -2,6 +2,7 @@ package cn.edu.kmust.store.user.controller;
 
 
 import cn.edu.kmust.store.user.entity.User;
+import cn.edu.kmust.store.user.param.UserDto;
 import cn.edu.kmust.store.user.param.UserParam;
 import cn.edu.kmust.store.user.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -138,5 +140,14 @@ public class UserController {
         return "fail";
     }
 
+
+
+    @RequestMapping("/user/{id}")
+    @ResponseBody
+    public UserDto findUserById(@PathVariable Integer id){
+
+        UserDto userDto = userService.getUserByUserId(id);
+        return userDto;
+    }
 
 }

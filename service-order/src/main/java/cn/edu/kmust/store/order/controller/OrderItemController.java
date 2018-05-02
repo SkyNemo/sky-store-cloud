@@ -4,6 +4,7 @@ package cn.edu.kmust.store.order.controller;
 import cn.edu.kmust.store.order.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -49,6 +50,16 @@ public class OrderItemController {
 
 
         return "success";
+    }
+
+
+    @RequestMapping("/productId/{id}")
+    @ResponseBody
+    public Integer countProductSale(@PathVariable Integer id){
+
+        Integer sale = orderItemService.countProductSale(id);
+
+        return sale;
     }
 
 }

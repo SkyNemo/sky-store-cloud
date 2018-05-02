@@ -38,6 +38,8 @@ public class OrderVo {
 
     private Float total;
 
+    public List<OrderItemVo> orderItemVos;
+
 
     public Integer getId() {
         return id;
@@ -152,7 +154,7 @@ public class OrderVo {
     }
 
 
-    public List<OrderItemVo> orderItemVos;
+
 
 
     public List<OrderItemVo> getOrderItemVos() {

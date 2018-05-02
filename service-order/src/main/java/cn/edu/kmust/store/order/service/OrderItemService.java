@@ -17,4 +17,6 @@ public interface OrderItemService {
     void deleteOrderItemById(Integer orderItemId);
 
     boolean changeOrderItem(Integer userId, Integer productId,Integer number);
+
+    Integer countProductSale(Integer productId);
 }

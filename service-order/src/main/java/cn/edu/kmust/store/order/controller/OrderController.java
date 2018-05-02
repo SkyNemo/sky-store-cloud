@@ -1,8 +1,7 @@
 package cn.edu.kmust.store.order.controller;
 
 
-import cn.edu.kmust.store.order.client.ProductFeignClient;
-import cn.edu.kmust.store.order.entity.Product;
+import cn.edu.kmust.store.order.param.OrderDto;
 import cn.edu.kmust.store.order.param.OrderItemVo;
 import cn.edu.kmust.store.order.param.OrderParam;
 import cn.edu.kmust.store.order.param.OrderVo;
@@ -11,6 +10,7 @@ import cn.edu.kmust.store.order.service.OrderService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -117,7 +117,7 @@ public class OrderController {
     }
 
 
-    @RequestMapping("/order")
+    @RequestMapping("/orders")
     public String bought(Model model, HttpSession session) {
 
         String userInfo = (String) session.getAttribute("user");
@@ -182,6 +182,33 @@ public class OrderController {
         model.addAttribute("orderItems", orderItemVos);
 
         return "cartPage";
+    }
+
+
+    @RequestMapping("/order/{id}")
+    @ResponseBody
+    public OrderDto getOrderById(@PathVariable Integer id){
+
+        OrderDto orderDto = orderService.getOrderDtoByOrderId(id);
+
+        List<OrderItemVo> orderItemVos = orderDto.getOrderItems();
+
+        for (OrderItemVo orderItemVo : orderItemVos){
+            System.out.println(orderItemVo.getProduct().getName());
+        }
+
+        return orderDto;
+
+    }
+
+
+    @RequestMapping("/finishOrder/{id}")
+    @ResponseBody
+    public boolean finishOrder(@PathVariable Integer id){
+
+        boolean isSuccess = orderService.finishOrder(id);
+
+        return isSuccess;
     }
 
 

@@ -33,7 +33,7 @@
 
             <span class="pull-right">
                 <a th:href="@{/service-user/toLogin}" th:if="${session.user == null}">我的订单</a>
-			    <a th:href="@{/service-order/order}" th:if="${session.user != null}">我的订单</a>
+			    <a th:href="@{/service-order/orders}" th:if="${session.user != null}">我的订单</a>
 
 			    <a th:href="@{/service-order/shoppingCart}" th:if="${session.user != null}">
 			        <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-shopping-cart redColor"></span>

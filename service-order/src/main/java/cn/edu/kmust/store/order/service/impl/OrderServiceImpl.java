@@ -4,6 +4,7 @@ import cn.edu.kmust.store.order.client.ProductFeignClient;
 import cn.edu.kmust.store.order.entity.Order;
 import cn.edu.kmust.store.order.entity.OrderItem;
 import cn.edu.kmust.store.order.entity.Product;
+import cn.edu.kmust.store.order.param.OrderDto;
 import cn.edu.kmust.store.order.param.OrderItemVo;
 import cn.edu.kmust.store.order.param.OrderParam;
 import cn.edu.kmust.store.order.param.OrderVo;
@@ -63,18 +64,18 @@ public class OrderServiceImpl implements OrderService {
 
 
             //判断前面的订单是否已有该订单项
-            if (orderItem.getOrderId() != null){
+            if (orderItem.getOrderId() != null) {
 
 
                 OrderItem newOrderItem = new OrderItem();
 
-                BeanUtils.copyProperties(orderItem,newOrderItem);
+                BeanUtils.copyProperties(orderItem, newOrderItem);
 
                 newOrderItem.setOrderId(saveOrder.getId());
 
                 orderItemRepository.save(newOrderItem);
 
-            }else {
+            } else {
 
 
                 orderItem.setOrderId(saveOrder.getId());
@@ -119,11 +120,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
-
     @Override
     public List<OrderVo> getByUserId(Integer userId) {
-
 
 
         List<OrderVo> orderVoList = new ArrayList<>();
@@ -198,6 +196,77 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.save(order);
 
+    }
+
+    @Override
+    public OrderDto getOrderDtoByOrderId(Integer orderId) {
+
+        Order order = orderRepository.findOne(orderId);
+
+        OrderDto orderDto = null;
+
+        System.out.println("206----------------");
+
+        if (order != null) {
+
+            System.out.println("210----------------");
+
+            orderDto = new OrderDto();
+
+            List<OrderItemVo> orderItemVoList = null;
+
+            BeanUtils.copyProperties(order, orderDto);
+
+            List<OrderItem> orderItemList = orderItemRepository.findByOrderId(orderId);
+
+            if (orderItemList != null && !orderItemList.isEmpty()) {
+
+                System.out.println("222----------------");
+
+                orderItemVoList = new ArrayList<>();
+
+                for (OrderItem orderItem : orderItemList) {
+
+                    System.out.println("228----------------");
+
+                    OrderItemVo orderItemVo = new OrderItemVo();
+
+                    BeanUtils.copyProperties(orderItem, orderItemVo);
+
+                    Product product = productFeignClient.findProductById(orderItem.getProductId());
+
+                    orderItemVo.setProduct(product);
+
+                    orderItemVoList.add(orderItemVo);
+                }
+
+            }
+
+            orderDto.setOrderItems(orderItemVoList);
+
+        }
+
+
+        return orderDto;
+    }
+
+    @Override
+    public boolean finishOrder(Integer id) {
+
+        Order order = orderRepository.findOne(id);
+
+        if (order != null){
+
+            order.setStatus(OrderService.FINISH);
+
+            orderRepository.save(order);
+
+            return true;
+
+        }
+
+
+        return false;
     }
 
 

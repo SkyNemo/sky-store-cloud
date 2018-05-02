@@ -18,7 +18,7 @@ spring:
 # mysql 属性配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/store?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
+    url: jdbc:mysql://45.40.240.250:3306/store?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
     username: root
     password: '032052'
   jpa:
@@ -77,3 +77,5 @@ info:
     java:
       source: @java.version@
       target: @java.version@
+
+

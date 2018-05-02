@@ -9,8 +9,6 @@ public class User {
 
     private String name;
 
-    private String password;
-
     private String phone;
 
     private String email;
@@ -21,7 +19,6 @@ public class User {
 
     public User(String name, String password, String phone, String email) {
         this.name = name;
-        this.password = password;
         this.phone = phone;
         this.email = email;
     }
@@ -31,7 +28,6 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 '}';
@@ -51,14 +47,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhone() {

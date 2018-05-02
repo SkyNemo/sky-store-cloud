@@ -32,17 +32,9 @@ public class UserRepositoryTests {
 
         userRepository.save(user);
 
-        System.out.println(userRepository.findOne(1L));
-
     }
 
 
-    @Test
-    public void testGet(){
-
-        User user = userRepository.getOne(8L);
-
-    }
 
 
 

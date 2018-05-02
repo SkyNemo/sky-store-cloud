@@ -12,4 +12,5 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findReviewByProductIdOrderByIdDesc(Integer id);
 
+    Review findByProductIdAndAndUserId(Integer productId,Integer userId);
 }

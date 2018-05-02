@@ -1,5 +1,6 @@
 package cn.edu.kmust.store.order.service;
 
+import cn.edu.kmust.store.order.param.OrderDto;
 import cn.edu.kmust.store.order.param.OrderItemVo;
 import cn.edu.kmust.store.order.param.OrderParam;
 import cn.edu.kmust.store.order.param.OrderVo;
@@ -23,4 +24,9 @@ public interface OrderService {
     List<OrderVo> getByUserId(Integer userId);
 
     void deleteOrder(Integer id);
+
+    OrderDto getOrderDtoByOrderId(Integer orderId);
+
+    boolean finishOrder(Integer id);
+
 }
