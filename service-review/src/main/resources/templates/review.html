@@ -16,7 +16,7 @@
 
         <div class="reviewProductInfoImg">
             <img width="400px" height="400px"
-                 th:src="@{'img/productSingle/' + ${orderReview.product.productImageId} +'.jpg' }"/>
+                 th:src="@{'/img/productSingle/' + ${orderReview.product.productImageId} +'.jpg' }"/>
         </div>
 
         <div class="reviewProductInfoRightDiv">
@@ -51,7 +51,7 @@
             </table>
 
             <div class="reviewProductInfoRightBelowDiv">
-                <span class="reviewProductInfoRightBelowImg"><img1 src="img/site/reviewLight.png"/></span>
+                <span class="reviewProductInfoRightBelowImg"><img1 src="/img/site/reviewLight.png"/></span>
                 <span class="reviewProductInfoRightBelowText"
                       th:text="|现在查看的是 您 于${orderReview.createDate} 购买的商品|"
                 >

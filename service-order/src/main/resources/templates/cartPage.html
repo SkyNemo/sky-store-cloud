@@ -25,7 +25,7 @@
                 <thead>
                 <tr>
                     <th class="selectAndImage">
-                        <img selectit="false" class="selectAllItem" src="img/site/cartNotSelected.png"/>
+                        <img selectit="false" class="selectAllItem" src="/img/site/cartNotSelected.png"/>
                         全选
 
                     </th>
@@ -40,8 +40,8 @@
                 <tr class="cartProductItemTR" th:each="orderItem : ${orderItems}" th:attrappend="oiid=${orderItem.id}">
                     <td>
                         <img selectit="false" class="cartProductItemIfSelected"
-                             src="img/site/cartNotSelected.png" th:attrappend="oiid=${orderItem.id}"/>
-                        <a style="display:none" href="#nowhere"><img src="img/site/cartSelected.png"/></a>
+                             src="/img/site/cartNotSelected.png" th:attrappend="oiid=${orderItem.id}"/>
+                        <a style="display:none" href="#nowhere"><img src="/img/site/cartSelected.png"/></a>
                         <img class="cartProductImg"
                              th:src="@{'img/productSingle_middle/' + ${orderItem.product.productImageId} +'.jpg'}"/>
                     </td>
@@ -50,9 +50,9 @@
                             <a th:href="@{'/service-product/' + ${orderItem.product.id}}" class="cartProductLink"
                                th:text="${orderItem.product.name}">获取名称失败</a>
                             <div class="cartProductLinkInnerDiv">
-                                <img src="img/site/creditcard.png" title="支持信用卡支付"/>
-                                <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货"/>
-                                <img src="img/site/promise.png" title="消费者保障服务,承诺如实描述"/>
+                                <img src="/img/site/creditcard.png" title="支持信用卡支付"/>
+                                <img src="/img/site/7day.png" title="消费者保障服务,承诺7天退货"/>
+                                <img src="/img/site/promise.png" title="消费者保障服务,承诺如实描述"/>
                             </div>
                         </div>
 
@@ -98,7 +98,7 @@
         </div>
 
         <div class="cartFoot">
-            <img selectit="false" class="selectAllItem" src="img/site/cartNotSelected.png"/>
+            <img selectit="false" class="selectAllItem" src="/img/site/cartNotSelected.png"/>
             <span>全选</span>
             <!-- 		<a href="#">删除</a> -->
 

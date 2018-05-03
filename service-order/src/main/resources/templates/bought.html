@@ -47,7 +47,7 @@
                         </b>
                         <span th:text="|订单号:${order.orderCode}|">订单号: ${o.orderCode}</span>
                     </td>
-                    <td colspan="2"><img width="13px" src="img/site/orderItemTmall.png"/>天猫商场</td>
+                    <td colspan="2"><img width="13px" src="/img/site/orderItemTmall.png"/>天猫商场</td>
                     <td colspan="1">
                         <a class="wangwanglink" href="#nowhere">
                             <div class="orderItemWangWangGif"></div>
@@ -68,7 +68,7 @@
 
                     <td class="orderItemProductInfoPartTD">
                         <img width="80" height="80"
-                             th:src="@{'img/productSingle_middle/' + ${orderItem.product.productImageId} + '.jpg'}"
+                             th:src="@{'/img/productSingle_middle/' + ${orderItem.product.productImageId} + '.jpg'}"
                         />
                     </td>
                     <td class="orderItemProductInfoPartTD">
@@ -76,9 +76,9 @@
                             <a href="foreproduct?product.id=${oi.product.id}"
                                th:text="${orderItem.product.name}">获取名称失败</a>
                             <div class="orderListItemProductLinkInnerDiv">
-                                <img src="img/site/creditcard.png" title="支持信用卡支付"/>
-                                <img src="img/site/7day.png" title="消费者保障服务,承诺7天退货"/>
-                                <img src="img/site/promise.png" title="消费者保障服务,承诺如实描述"/>
+                                <img src="/img/site/creditcard.png" title="支持信用卡支付"/>
+                                <img src="/img/site/7day.png" title="消费者保障服务,承诺7天退货"/>
+                                <img src="/img/site/promise.png" title="消费者保障服务,承诺如实描述"/>
                             </div>
                         </div>
                     </td>

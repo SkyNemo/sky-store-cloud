@@ -15,12 +15,12 @@
     <div class="imgAndInfo">
 
         <div class="imgInimgAndInfo">
-            <img th:src="@{'img/productSingle/' + ${product.firstProductImage.id} + '.jpg'}" class="bigImg"/>
+            <img th:src="@{'/img/productSingle/' + ${product.firstProductImage.id} + '.jpg'}" class="bigImg"/>
 
             <div class="smallImageDiv">
                 <img th:each="singleImage : ${product.singleImages}"
-                     th:src="@{'img/productSingle_small/' + ${singleImage.id} + '.jpg'}"
-                     th:attrappend="bigImageURL='img/productSingle/' + ${singleImage.id} + '.jpg'"
+                     th:src="@{'/img/productSingle_small/' + ${singleImage.id} + '.jpg'}"
+                     th:attrappend="bigImageURL='/img/productSingle/' + ${singleImage.id} + '.jpg'"
                      class="smallImage"
                 />
 
@@ -41,7 +41,7 @@
                     <span>此商品即将参加聚划算，<span class="juhuasuanTime">1天19小时</span>后开始，</span>
                 </div>
                 <div class="productPriceDiv">
-                    <div class="gouwujuanDiv"><img height="16px" src="img/site/gouwujuan.png"/>
+                    <div class="gouwujuanDiv"><img height="16px" src="/img/site/gouwujuan.png"/>
                         <span> 全天猫实物商品通用</span>
 
                     </div>
@@ -74,14 +74,14 @@
                     <span class="arrow">
                         <a href="#nowhere" class="increaseNumber">
                         <span class="updown">
-                                <img src="img/site/increase.png"/>
+                                <img src="/img/site/increase.png"/>
                         </span>
                         </a>
 
                         <span class="updownMiddle"> </span>
                         <a href="#nowhere" class="decreaseNumber">
                         <span class="updown">
-                                <img src="img/site/decrease.png"/>
+                                <img src="/img/site/decrease.png"/>
                         </span>
                         </a>
 
@@ -141,7 +141,7 @@
 
         <div class="productDetailImagesPart" th:each="detailImage : ${product.detailImages}">
 
-            <img th:src="@{'img/productDetail/' + ${detailImage.id} + '.jpg'}"/>
+            <img th:src="@{'/img/productDetail/' + ${detailImage.id} + '.jpg'}"/>
 
         </div>
     </div>
