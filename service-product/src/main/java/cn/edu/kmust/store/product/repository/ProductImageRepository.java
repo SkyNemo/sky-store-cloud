@@ -10,4 +10,5 @@ public interface ProductImageRepository extends JpaRepository<ProductImage, Inte
 
 
     List<ProductImage> findByProductIdAndTypeOrderByIdDesc(Integer productId, String type);
+
 }

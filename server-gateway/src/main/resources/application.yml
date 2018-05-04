@@ -8,6 +8,18 @@ spring:
     username: guest
     password: guest
     port: 5672
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://45.40.240.250:3306/store?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: '032052'
+  jpa:
+    hibernate:
+      #ddl-auto:设为create表示每次都重新建表
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: true
 eureka:
   client:
     serviceUrl:

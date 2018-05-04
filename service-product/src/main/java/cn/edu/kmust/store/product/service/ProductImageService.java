@@ -2,6 +2,7 @@ package cn.edu.kmust.store.product.service;
 
 import cn.edu.kmust.store.product.entity.ProductImage;
 import cn.edu.kmust.store.product.param.ProductDetailVo;
+import cn.edu.kmust.store.product.param.ProductImageDto;
 
 import java.util.List;
 
@@ -17,5 +18,7 @@ public interface ProductImageService {
 
 
     List<ProductImage> getSingleProductImageByProductId(Integer productId);
+
+    ProductImageDto getProductImageById(Integer id);
 
 }

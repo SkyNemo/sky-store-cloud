@@ -2,8 +2,10 @@ package cn.edu.kmust.store.product.service.impl;
 
 import cn.edu.kmust.store.product.entity.ProductImage;
 import cn.edu.kmust.store.product.param.ProductDetailVo;
+import cn.edu.kmust.store.product.param.ProductImageDto;
 import cn.edu.kmust.store.product.repository.ProductImageRepository;
 import cn.edu.kmust.store.product.service.ProductImageService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,18 @@ public class ProductImageServiceImpl implements ProductImageService {
                 .findByProductIdAndTypeOrderByIdDesc(productId, ProductImageService.TYPE_SINGLE);
 
         return productImageList;
+    }
+
+    @Override
+    public ProductImageDto getProductImageById(Integer id) {
+
+        ProductImageDto productImageDto = new ProductImageDto();
+
+        ProductImage productImage = productImageRepository.findOne(id);
+
+        BeanUtils.copyProperties(productImage, productImageDto);
+
+        return productImageDto;
     }
 
 

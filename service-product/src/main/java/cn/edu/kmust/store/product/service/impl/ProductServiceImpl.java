@@ -199,7 +199,7 @@ public class ProductServiceImpl implements ProductService {
 
 
                     if (remain > 0) {
-                        System.out.println("fromIndex=" + (listSize - remain) + ", toIndex=" + (listSize));
+                        //System.out.println("fromIndex=" + (listSize - remain) + ", toIndex=" + (listSize));
                         productByRow.add(productHomeVoList.subList(listSize - remain, listSize));
                     }
 
