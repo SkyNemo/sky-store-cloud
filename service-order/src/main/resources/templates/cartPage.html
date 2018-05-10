@@ -43,7 +43,7 @@
                              src="/img/site/cartNotSelected.png" th:attrappend="oiid=${orderItem.id}"/>
                         <a style="display:none" href="#nowhere"><img src="/img/site/cartSelected.png"/></a>
                         <img class="cartProductImg"
-                             th:src="@{'img/productSingle_middle/' + ${orderItem.product.productImageId} +'.jpg'}"/>
+                             th:src="@{'/img/productSingle_middle/' + ${orderItem.product.productImageId} +'.jpg'}"/>
                     </td>
                     <td>
                         <div class="cartProductLinkOutDiv">
@@ -82,7 +82,7 @@
                     <td>
 							<span class="cartProductItemSmallSumPrice"
                                   th:attrappend="oiid=${orderItem.id},pid=${orderItem.product.id}"
-                                  th:text="|￥${#numbers.formatDecimal(orderItem.product.originalPrice * orderItem.number, 0 ,2)}|">
+                                  th:text="|￥${#numbers.formatDecimal(orderItem.product.promotePrice * orderItem.number, 0 ,2)}|">
 							    <!--￥<fmt:formatNumber type="number" value="${oi.product.promotePrice*oi.number}"
                                                minFractionDigits="2"/>-->
 							</span>
@@ -183,12 +183,12 @@
             $("img.cartProductItemIfSelected").click(function () {
                 var selectit = $(this).attr("selectit")
                 if ("selectit" == selectit) {
-                    $(this).attr("src", "img/site/cartNotSelected.png");
+                    $(this).attr("src", "/img/site/cartNotSelected.png");
                     $(this).attr("selectit", "false")
                     $(this).parents("tr.cartProductItemTR").css("background-color", "#fff");
                 }
                 else {
-                    $(this).attr("src", "img/site/cartSelected.png");
+                    $(this).attr("src", "/img/site/cartSelected.png");
                     $(this).attr("selectit", "selectit")
                     $(this).parents("tr.cartProductItemTR").css("background-color", "#FFF8E1");
                 }
@@ -201,19 +201,19 @@
             $("img.selectAllItem").click(function () {
                 var selectit = $(this).attr("selectit")
                 if ("selectit" == selectit) {
-                    $("img.selectAllItem").attr("src", "img/site/cartNotSelected.png");
+                    $("img.selectAllItem").attr("src", "/img/site/cartNotSelected.png");
                     $("img.selectAllItem").attr("selectit", "false")
                     $(".cartProductItemIfSelected").each(function () {
-                        $(this).attr("src", "img/site/cartNotSelected.png");
+                        $(this).attr("src", "/img/site/cartNotSelected.png");
                         $(this).attr("selectit", "false");
                         $(this).parents("tr.cartProductItemTR").css("background-color", "#fff");
                     });
                 }
                 else {
-                    $("img.selectAllItem").attr("src", "img/site/cartSelected.png");
+                    $("img.selectAllItem").attr("src", "/img/site/cartSelected.png");
                     $("img.selectAllItem").attr("selectit", "selectit")
                     $(".cartProductItemIfSelected").each(function () {
-                        $(this).attr("src", "img/site/cartSelected.png");
+                        $(this).attr("src", "/img/site/cartSelected.png");
                         $(this).attr("selectit", "selectit");
                         $(this).parents("tr.cartProductItemTR").css("background-color", "#FFF8E1");
                     });
@@ -311,9 +311,9 @@
             });
 
             if (selectAll)
-                $("img.selectAllItem").attr("src", "img/site/cartSelected.png");
+                $("img.selectAllItem").attr("src", "/img/site/cartSelected.png");
             else
-                $("img.selectAllItem").attr("src", "img/site/cartNotSelected.png");
+                $("img.selectAllItem").attr("src", "/img/site/cartNotSelected.png");
 
 
         }

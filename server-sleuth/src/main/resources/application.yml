@@ -9,7 +9,7 @@ zipkin:
       queue: zipkin
 spring:
   application:
-    name: sleuth-server
+    name: server-sleuth
 # Eureka服务器配置
 eureka:
   client:
@@ -17,3 +17,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}

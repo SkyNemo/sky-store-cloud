@@ -1,8 +1,8 @@
 server:
-  port: 8031
+  port: 18083
 spring:
   application:
-    name: server-turbine    # 对应config server所获取的配置文件的{application}
+    name: service-category   # 对应config server所获取的配置文件的{application}
   cloud:
     config:
       username: user
@@ -19,8 +19,3 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
-    # 务必与server.port一致
-    non-secure-port: 8031
-management:
-  # 配置spring boot actuator端口
-  port: 18031

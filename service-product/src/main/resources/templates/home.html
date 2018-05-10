@@ -24,10 +24,7 @@
             </div>
 
             <div class="rightMenu">
-                <span><a href=""><img src="/img/site/chaoshi.png"/></a></span>
-                <span><a href=""><img src="/img/site/guoji.png"/></a></span>
-
-                <span th:each="category,iterStat : ${categories}" th:if="${iterStat.count le 4}">
+                <span th:each="category,iterStat : ${categories}" th:if="${iterStat.count le 7}">
                         <a href="#" th:text="${category.name}"/>
                 </span>
 

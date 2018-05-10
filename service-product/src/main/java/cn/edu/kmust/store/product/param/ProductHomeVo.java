@@ -17,7 +17,7 @@ public class ProductHomeVo {
     /*
      * 关联的 firstProductImage
      * */
-    private ProductImage firstProductImage;
+    private ProductImageVo firstProductImage;
 
 
     public String getSubTitle() {
@@ -52,11 +52,11 @@ public class ProductHomeVo {
         this.promotePrice = promotePrice;
     }
 
-    public ProductImage getFirstProductImage() {
+    public ProductImageVo getFirstProductImage() {
         return firstProductImage;
     }
 
-    public void setFirstProductImage(ProductImage firstProductImage) {
+    public void setFirstProductImage(ProductImageVo firstProductImage) {
         this.firstProductImage = firstProductImage;
     }
 }

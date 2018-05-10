@@ -5,10 +5,7 @@ import cn.edu.kmust.store.product.client.PropertyFeignClient;
 import cn.edu.kmust.store.product.client.PropertyValueFeignClient;
 import cn.edu.kmust.store.product.client.ReviewFeignClient;
 import cn.edu.kmust.store.product.entity.*;
-import cn.edu.kmust.store.product.param.CategoryHomeVo;
-import cn.edu.kmust.store.product.param.ProductDetailVo;
-import cn.edu.kmust.store.product.param.ProductDto;
-import cn.edu.kmust.store.product.param.ProductHomeVo;
+import cn.edu.kmust.store.product.param.*;
 import cn.edu.kmust.store.product.repository.ProductImageRepository;
 import cn.edu.kmust.store.product.repository.ProductRepository;
 import cn.edu.kmust.store.product.service.ProductImageService;
@@ -52,7 +49,17 @@ public class ProductServiceImpl implements ProductService {
 
     public void fillProductDtoVo(Product product, ProductDto productDto) {
         BeanUtils.copyProperties(product, productDto);
-        productDto.setProductImageId(productImageRepository.findByProductIdAndTypeOrderByIdDesc(product.getId(), ProductImageService.TYPE_SINGLE).get(0).getId());
+
+
+        // 商品可能没有图片，需要做判断
+        List<ProductImage> productImageList = productImageRepository.findByProductIdAndTypeOrderByIdDesc(product.getId(), ProductImageService.TYPE_SINGLE);
+
+        if (productImageList != null && !productImageList.isEmpty()) {
+            productDto.setProductImageId(productImageList.get(0).getId());
+        }else {
+            productDto.setProductImageId(-1);
+        }
+
     }
 
     public void fillCategoryHomeVo(Category category, CategoryHomeVo categoryHomeVo) {
@@ -70,8 +77,18 @@ public class ProductServiceImpl implements ProductService {
                 ProductHomeVo productHomeVo = new ProductHomeVo();
                 BeanUtils.copyProperties(product, productHomeVo);
 
-                productHomeVo.setFirstProductImage(productImageRepository
-                        .findByProductIdAndTypeOrderByIdDesc(product.getId(), ProductImageService.TYPE_SINGLE).get(0));
+                List<ProductImage> productImageList = productImageRepository.findByProductIdAndTypeOrderByIdDesc(product.getId(), ProductImageService.TYPE_SINGLE);
+
+                ProductImageVo productImageVo = new ProductImageVo();
+
+                if (productImageList != null && !productImageList.isEmpty()) {
+
+                    BeanUtils.copyProperties(productImageList.get(0), productImageVo);
+                } else {
+                    productImageVo.setId(-1);
+                }
+
+                productHomeVo.setFirstProductImage(productImageVo);
 
                 productHomeVoList.add(productHomeVo);
 
@@ -159,9 +176,14 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = productRepository.findOne(productId);
 
-        ProductDto productDto = new ProductDto();
+        ProductDto productDto = null;
 
-        this.fillProductDtoVo(product, productDto);
+        if (product != null) {
+
+            productDto = new ProductDto();
+
+            this.fillProductDtoVo(product, productDto);
+        }
 
         return productDto;
     }

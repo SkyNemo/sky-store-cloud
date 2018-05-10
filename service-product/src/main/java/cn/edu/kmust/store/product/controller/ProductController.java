@@ -65,7 +65,10 @@ public class ProductController {
 
         ProductDto productDto = productService.getProductDtoById(id);
 
-        System.out.println(productDto.getProductImageId());
+        if (productDto != null){
+            System.out.println(productDto.getProductImageId());
+        }
+
 
         return productDto;
     }

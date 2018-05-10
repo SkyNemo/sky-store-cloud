@@ -35,11 +35,11 @@ public class ProductDetailVo {
      * 关联的 productImage
      *
      * */
-    private List<ProductImage> detailImages;
+    private List<ProductImageVo> detailImages;
 
-    private List<ProductImage> singleImages;
+    private List<ProductImageVo> singleImages;
 
-    private ProductImage firstProductImage;
+    private ProductImageVo firstProductImage;
 
     /*
      * 关联的 review
@@ -87,11 +87,11 @@ public class ProductDetailVo {
                 '}';
     }
 
-    public ProductImage getFirstProductImage() {
+    public ProductImageVo getFirstProductImage() {
         return firstProductImage;
     }
 
-    public void setFirstProductImage(ProductImage firstProductImage) {
+    public void setFirstProductImage(ProductImageVo firstProductImage) {
         this.firstProductImage = firstProductImage;
     }
 
@@ -176,19 +176,19 @@ public class ProductDetailVo {
         this.createDate = createDate;
     }
 
-    public List<ProductImage> getDetailImages() {
+    public List<ProductImageVo> getDetailImages() {
         return detailImages;
     }
 
-    public void setDetailImages(List<ProductImage> detailImages) {
+    public void setDetailImages(List<ProductImageVo> detailImages) {
         this.detailImages = detailImages;
     }
 
-    public List<ProductImage> getSingleImages() {
+    public List<ProductImageVo> getSingleImages() {
         return singleImages;
     }
 
-    public void setSingleImages(List<ProductImage> singleImages) {
+    public void setSingleImages(List<ProductImageVo> singleImages) {
         this.singleImages = singleImages;
     }
 

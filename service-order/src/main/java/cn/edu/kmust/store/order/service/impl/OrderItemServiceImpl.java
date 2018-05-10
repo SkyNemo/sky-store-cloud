@@ -7,6 +7,8 @@ import cn.edu.kmust.store.order.param.OrderItemVo;
 import cn.edu.kmust.store.order.param.OrderVo;
 import cn.edu.kmust.store.order.repository.OrderItemRepository;
 import cn.edu.kmust.store.order.service.OrderItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ import java.util.List;
 @Service
 @Transactional
 public class OrderItemServiceImpl implements OrderItemService {
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderItemServiceImpl.class);
 
     @Resource
     private OrderItemRepository orderItemRepository;
@@ -94,29 +99,43 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         List<OrderItemVo> orderItemVoList = new ArrayList<>();
 
-
-        for (OrderItem orderItem : orderItemList) {
-
-            float total = 0;
-
-            OrderItemVo orderItemVo = new OrderItemVo();
-
-            Product product = productFeignClient.findProductById(orderItem.getProductId());
-
-            orderItemVo.setProduct(product);
+        if (orderItemList != null) {
 
 
-            total = product.getPromotePrice() * orderItem.getNumber();
+            for (OrderItem orderItem : orderItemList) {
 
-            orderItemVo.setTotal(total);
+                float total = 0;
+
+                OrderItemVo orderItemVo = new OrderItemVo();
+
+                System.out.println(orderItem.getProductId());
+
+                LOGGER.info("" + orderItem.getProductId());
+
+                Product product = productFeignClient.findProductById(orderItem.getProductId());
+
+                if (product != null) {
+
+                    orderItemVo.setProduct(product);
+
+                    Integer number = orderItem.getNumber();
+
+                    float price = product.getPromotePrice();
+
+                    total = number * price;
+
+                    orderItemVo.setTotal(total);
 
 
-            BeanUtils.copyProperties(orderItem, orderItemVo);
+                    BeanUtils.copyProperties(orderItem, orderItemVo);
 
 
-            orderItemVoList.add(orderItemVo);
+                    orderItemVoList.add(orderItemVo);
+                }
 
-            System.out.println("106------------------");
+                System.out.println("106------------------");
+
+            }
 
         }
 
@@ -127,7 +146,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     public void deleteOrderItemById(Integer orderItemId) {
 
         OrderItem one = orderItemRepository.findOne(orderItemId);
-        if (one != null){
+        if (one != null) {
             orderItemRepository.delete(orderItemId);
         }
 

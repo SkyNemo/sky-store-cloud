@@ -3,6 +3,7 @@ package cn.edu.kmust.store.product.service.impl;
 import cn.edu.kmust.store.product.entity.ProductImage;
 import cn.edu.kmust.store.product.param.ProductDetailVo;
 import cn.edu.kmust.store.product.param.ProductImageDto;
+import cn.edu.kmust.store.product.param.ProductImageVo;
 import cn.edu.kmust.store.product.repository.ProductImageRepository;
 import cn.edu.kmust.store.product.service.ProductImageService;
 import org.springframework.beans.BeanUtils;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,10 +25,53 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     @Override
     public void setProductDetailVoImage(ProductDetailVo productDetailVo) {
-        productDetailVo.setDetailImages(this.getDetailProductImageByProductId(productDetailVo.getId()));
-        List<ProductImage> productImages = this.getSingleProductImageByProductId(productDetailVo.getId());
-        productDetailVo.setSingleImages(productImages);
-        productDetailVo.setFirstProductImage(productImages.get(0));
+        //商品可能没有图片，设置默认图片
+
+        // 1.设置detail图片
+        List<ProductImage> detailImageList = this.getDetailProductImageByProductId(productDetailVo.getId());
+
+        List<ProductImageVo> detailImageVoList = new ArrayList<>();
+
+        if (detailImageList != null && !detailImageList.isEmpty()) {
+
+            for (ProductImage productImage : detailImageList) {
+
+                ProductImageVo productImageVo = new ProductImageVo();
+                BeanUtils.copyProperties(productImage, productImageVo);
+                detailImageVoList.add(productImageVo);
+            }
+        } else {
+            ProductImageVo productImageVo = new ProductImageVo();
+            productImageVo.setId(-1);
+            detailImageVoList.add(productImageVo);
+        }
+
+        productDetailVo.setDetailImages(detailImageVoList);
+
+
+        // 2.设置single图片
+        List<ProductImage> singleImageList = this.getSingleProductImageByProductId(productDetailVo.getId());
+
+        List<ProductImageVo> singleImageVoList = new ArrayList<>();
+
+        if (singleImageList != null && !singleImageList.isEmpty()) {
+
+            for (ProductImage productImage : singleImageList) {
+
+                ProductImageVo productImageVo = new ProductImageVo();
+                BeanUtils.copyProperties(productImage, productImageVo);
+                singleImageVoList.add(productImageVo);
+            }
+
+        }else {
+            ProductImageVo productImageVo = new ProductImageVo();
+            productImageVo.setId(-1);
+            singleImageVoList.add(productImageVo);
+        }
+
+        productDetailVo.setSingleImages(singleImageVoList);
+        //
+        productDetailVo.setFirstProductImage(singleImageVoList.get(0));
 
     }
 

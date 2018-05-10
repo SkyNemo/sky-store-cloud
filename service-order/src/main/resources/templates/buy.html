@@ -12,8 +12,8 @@
 
 <div layout:fragment="content">
 
-    <div class="buyPageDiv">
-        <form th:action="@{/service-order/createOrder}" method="post">
+    <div class="buyPageDiv container">
+        <form th:action="@{/service-order/createOrder}" method="post" class="form-horizontal">
 
             <div class="buyFlow">
                 <img class="pull-left" src="/img/site/simpleLogo.png"/>
@@ -24,26 +24,33 @@
                 <div class="addressTip">输入收货地址</div>
                 <div>
 
-                    <table class="addressTable">
-                        <tr>
-                            <td class="firstColumn">详细地址<span class="redStar">*</span></td>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-1 control-label">详细地址<span class="redStar">*</span></label>
+                        <div class="col-sm-10">
+                            <textarea id="address" name="address" placeholder="建议您填写详细收货地址，例如接到名称，号码，楼层和房间号等信息" class="form-control"></textarea>
+                        </div>
+                    </div>
 
-                            <td><textarea name="address" placeholder="建议您如实填写详细收货地址，例如接到名称，号码，楼层和房间号等信息"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>邮政编码</td>
-                            <td><input name="post" placeholder="如果您不清楚邮递区号，请填写000000" type="text"/></td>
-                        </tr>
-                        <tr>
-                            <td>收货人姓名<span class="redStar">*</span></td>
-                            <td><input name="receiver" placeholder="长度不超过25个字符" type="text"/></td>
-                        </tr>
-                        <tr>
-                            <td>手机号码 <span class="redStar">*</span></td>
-                            <td><input name="mobile" placeholder="请输入11位手机号码" type="text"/></td>
-                        </tr>
-                    </table>
+                    <div class="form-group">
+                        <label for="post" class="col-sm-1 control-label">邮政编码</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="post" id="post" placeholder="如果您不清楚邮递区号，请填写000000"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="receiver" class="col-sm-1 control-label">收货人<span class="redStar">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="receiver" id="receiver" placeholder="长度不超过25个字符"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile" class="col-sm-1 control-label">联系方式<span class="redStar">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="mobile" id="mobile" placeholder="请输入11位手机号码"/>
+                        </div>
+                    </div>
 
                 </div>
 
