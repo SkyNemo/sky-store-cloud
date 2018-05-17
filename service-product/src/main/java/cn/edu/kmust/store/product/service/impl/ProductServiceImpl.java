@@ -1,9 +1,6 @@
 package cn.edu.kmust.store.product.service.impl;
 
-import cn.edu.kmust.store.product.client.CategoryFeignClient;
-import cn.edu.kmust.store.product.client.PropertyFeignClient;
-import cn.edu.kmust.store.product.client.PropertyValueFeignClient;
-import cn.edu.kmust.store.product.client.ReviewFeignClient;
+import cn.edu.kmust.store.product.client.*;
 import cn.edu.kmust.store.product.entity.*;
 import cn.edu.kmust.store.product.param.*;
 import cn.edu.kmust.store.product.repository.ProductImageRepository;
@@ -39,6 +36,9 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     private CategoryFeignClient categoryFeignClient;
 
+    @Resource
+    private UserFeignClient userFeignClient;
+
 
     @Autowired
     private ProductRepository productRepository;
@@ -64,27 +64,32 @@ public class ProductServiceImpl implements ProductService {
 
     public void fillCategoryHomeVo(Category category, CategoryHomeVo categoryHomeVo) {
 
+        // 根据分类id获取该分类所有商品
         List<Product> productList = productRepository.findByCategoryId(category.getId());
 
+        // 创建Vo
         List<ProductHomeVo> productHomeVoList = null;
 
         if (productList != null) {
 
             productHomeVoList = new ArrayList<>(productList.size());
 
+
+            // 将所有商品对应Vo一一填充
             for (Product product : productList) {
 
                 ProductHomeVo productHomeVo = new ProductHomeVo();
                 BeanUtils.copyProperties(product, productHomeVo);
 
+                //设置商品图片
                 List<ProductImage> productImageList = productImageRepository.findByProductIdAndTypeOrderByIdDesc(product.getId(), ProductImageService.TYPE_SINGLE);
 
                 ProductImageVo productImageVo = new ProductImageVo();
 
                 if (productImageList != null && !productImageList.isEmpty()) {
-
                     BeanUtils.copyProperties(productImageList.get(0), productImageVo);
                 } else {
+                    // 图片不存在，设置默认图片
                     productImageVo.setId(-1);
                 }
 
@@ -98,17 +103,20 @@ public class ProductServiceImpl implements ProductService {
 
         BeanUtils.copyProperties(category, categoryHomeVo);
 
+        // 设置商品Vo列表
         categoryHomeVo.setProductList(productHomeVoList);
 
+        // 设置分类下商品的特点
         fillCategoryHomeVoByRow(categoryHomeVo);
-
 
     }
 
     public void fillCategoryHomeVoList(List<Category> categoryList, List<CategoryHomeVo> categoryHomeVoList) {
 
+
         IntStream.range(0, categoryList.size()).forEach(i -> categoryHomeVoList.add(new CategoryHomeVo()));
 
+        // 根据分类列表逐个添加商品信息
         IntStream.range(0, categoryList.size())
                 .forEach(i -> this.fillCategoryHomeVo(categoryList.get(i), categoryHomeVoList.get(i)));
 
@@ -130,7 +138,28 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void setProductDetailVoReviews(ProductDetailVo productDetailVo) {
 
-        productDetailVo.setReviews(this.reviewFeignClient.findByProductId(productDetailVo.getId()));
+        List<Review> reviewList = this.reviewFeignClient.findByProductId(productDetailVo.getId());
+
+        List<ReviewVo> reviewVoList = new ArrayList<>();
+
+        if (reviewList != null && !reviewList.isEmpty()){
+
+            for (Review review : reviewList){
+
+                ReviewVo reviewVo = new ReviewVo();
+
+                BeanUtils.copyProperties(review,reviewVo);
+
+                User user = userFeignClient.findUserById(review.getUserId());
+
+                reviewVo.setUser(user);
+
+                reviewVoList.add(reviewVo);
+
+            }
+        }
+
+        productDetailVo.setReviews(reviewVoList);
 
     }
 
@@ -218,7 +247,6 @@ public class ProductServiceImpl implements ProductService {
                         productByRow.add(productHomeVoList.subList(fromIndex, toIndex));
 
                     }
-
 
                     if (remain > 0) {
                         //System.out.println("fromIndex=" + (listSize - remain) + ", toIndex=" + (listSize));

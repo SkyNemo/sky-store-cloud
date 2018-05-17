@@ -11,8 +11,9 @@
 
 <div id="loginDiv" style="position: relative">
 
-    <div class="simpleLogo">
-        <a href="#"><img src="/img/site/simpleLogo.png"/></a>
+
+    <div class="simpleLogo container">
+        <a href="#"><img src="/img/site/simpleLogo.png" class="pull-left"/></a>
     </div>
 
     <img id="loginBackgroundImg" class="loginBackgroundImg" src="/img/site/loginBackground.png"/>
@@ -40,8 +41,6 @@
 				</span>
                 <input id="password" name="password" type="password" placeholder="密码"/>
             </div>
-            <span class="text-danger">不要输入真实的天猫账号密码</span><br/><br/>
-
 
             <div>
                 <a class="notImplementLink" href="#nowhere">忘记登录密码</a>
@@ -51,9 +50,12 @@
                 <button class="btn btn-block redButton" type="submit">登录</button>
             </div>
 
+
+            <!--
             <div th:if="${errorMsg != null}" class="alter later-danger" role="alert"
                  th:text="${errorMsg}">
             </div>
+            -->
 
         </div>
     </form>
@@ -62,7 +64,9 @@
 </div>
 
 
-<script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
     $(function () {
 
         $("form.loginForm").submit(function () {
@@ -81,7 +85,18 @@
 
         var left = window.innerWidth / 2 + 162;
         $("div.loginSmallDiv").css("left", left);
+
+
+        var errorMsg = /*[[${errorMsg}]]*/ null;
+
+        if (errorMsg != null) {
+            $("span.errorMessage").html(errorMsg);
+            $("div.loginErrorMessageDiv").show();
+        }
+
     })
+
+    /*]]>*/
 </script>
 
 </body>

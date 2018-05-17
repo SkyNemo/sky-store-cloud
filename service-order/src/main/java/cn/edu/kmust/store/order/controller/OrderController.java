@@ -33,6 +33,8 @@ public class OrderController {
     @RequestMapping("/buyAtOnce")
     private String buyOne(HttpServletRequest request, Model model) {
 
+        // 获取前端传来的数据
+
         Integer productId = Integer.parseInt(request.getParameter("productId"));
 
         Integer number = Integer.parseInt(request.getParameter("number"));
@@ -46,10 +48,12 @@ public class OrderController {
         Integer orderItemVoId = -1;
 
 
+        // 根据用户id、商品id、商品数目创建订单项
         OrderItemVo orderItemVo = orderItemService.getOrderItemVoByUserIdAndProductIdAndNumber(userId, productId, number);
 
         orderItemVoId = orderItemVo.getId();
 
+        // 调用结算方法，跳转到订单提交页面
         return this.buy(new String[]{String.valueOf(orderItemVoId)}, session, model);
     }
 
@@ -57,20 +61,18 @@ public class OrderController {
     @RequestMapping("/buy")
     public String buy(String[] orderItemIds, HttpSession session, Model model) {
 
-        List<OrderItemVo> orderItemVos = orderItemService.getOrderItemVoListByOrderItemListId(orderItemIds);
+        List<OrderItemVo> orderItemVos = orderItemService.getOrderItemVoListByOrderItemIds(orderItemIds);
 
+        // 将订单项信息转换成JSON数据存入session中
         String orderItemVosStr = JSON.toJSONString(orderItemVos);
-
         session.setAttribute("orderItemVosStr", orderItemVosStr);
-        model.addAttribute("orderItems", orderItemVos);
 
+        model.addAttribute("orderItems", orderItemVos);
 
         float total = 0;
         for (OrderItemVo orderItemVo : orderItemVos) {
             total += orderItemVo.getTotal();
         }
-
-
         model.addAttribute("total", total);
 
         return "buy";
@@ -81,6 +83,7 @@ public class OrderController {
     public String createOrder(OrderParam orderParam, HttpSession session, Model model) {
 
 
+        // 获取session中的订单项信息
         String orderItemVosStr = (String) session.getAttribute("orderItemVosStr");
 
         List<OrderItemVo> orderItemVos = JSON.parseArray(orderItemVosStr, OrderItemVo.class);
@@ -120,10 +123,12 @@ public class OrderController {
     @RequestMapping("/orders")
     public String bought(Model model, HttpSession session) {
 
+        // 获取用户信息
         String userInfo = (String) session.getAttribute("user");
 
         Integer userId = Integer.parseInt(userInfo.split(" ")[0]);
 
+        //根据用户id获取订单
         List<OrderVo> orderVos = orderService.getByUserId(userId);
 
         model.addAttribute("orders", orderVos);
@@ -148,11 +153,11 @@ public class OrderController {
     @ResponseBody
     public String addCart(HttpServletRequest request) {
 
+        // 获取前端传来的信息
+
         int productId = Integer.parseInt(request.getParameter("productId"));
 
         int number = Integer.parseInt(request.getParameter("number"));
-
-        System.out.println(productId + ":" + number);
 
 
         HttpSession session = request.getSession();
@@ -161,6 +166,7 @@ public class OrderController {
 
         Integer userId = Integer.parseInt(userInfo.split(" ")[0]);
 
+        // 创建订单项
         orderItemService.getOrderItemVoByUserIdAndProductIdAndNumber(userId, productId, number);
 
         return "success";
@@ -170,6 +176,7 @@ public class OrderController {
     public String shoppingCart(HttpServletRequest request,Model model) {
 
 
+        // 获取用户信息
         HttpSession session = request.getSession();
 
         String userInfo = (String) session.getAttribute("user");
@@ -177,6 +184,7 @@ public class OrderController {
         Integer userId = Integer.parseInt(userInfo.split(" ")[0]);
 
 
+        // 根据用户id获取购物车订单项
         List<OrderItemVo> orderItemVos = orderItemService.getOrderItemVoListByUserIdAndOrderId(userId, null);
 
         model.addAttribute("orderItems", orderItemVos);
@@ -185,6 +193,9 @@ public class OrderController {
     }
 
 
+    /*
+    * 根据订单id获取订单信息
+    * */
     @RequestMapping("/order/{id}")
     @ResponseBody
     public OrderDto getOrderById(@PathVariable Integer id){
@@ -209,6 +220,30 @@ public class OrderController {
         boolean isSuccess = orderService.finishOrder(id);
 
         return isSuccess;
+    }
+
+
+    @RequestMapping("/confirmReceipt/{id}")
+    public String confirmReceipt(@PathVariable Integer id){
+
+        orderService.confirmReceipt(id);
+
+        return "forward:/orders";
+    }
+
+
+
+    @RequestMapping("/orderToBuy")
+    public String orderToBuy(HttpServletRequest request,Model model){
+
+        Integer orderId = Integer.parseInt(request.getParameter("orderId"));
+
+
+        OrderVo orderVo = orderService.findByOrderId(orderId);
+
+        model.addAttribute("order",orderVo);
+
+        return "alipayPage";
     }
 
 

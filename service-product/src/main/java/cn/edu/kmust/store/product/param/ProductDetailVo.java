@@ -45,7 +45,7 @@ public class ProductDetailVo {
      * 关联的 review
      *
      * */
-    private List<Review> reviews;
+    private List<ReviewVo> reviews;
 
     private Integer reviewCount; // 评论数目  冗余字段
 
@@ -192,11 +192,11 @@ public class ProductDetailVo {
         this.singleImages = singleImages;
     }
 
-    public List<Review> getReviews() {
+    public List<ReviewVo> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<Review> reviews) {
+    public void setReviews(List<ReviewVo> reviews) {
         this.reviews = reviews;
         this.setReviewCount(reviews.size());
     }

@@ -17,6 +17,9 @@ public class ProductImageController {
     private ProductImageService productImageService;
 
 
+    /*
+    * 根据商品图片Id获取商品图片信息
+    * */
     @RequestMapping("/productImage/{id}")
     public ProductImageDto getProductImageById(@PathVariable Integer id) {
 

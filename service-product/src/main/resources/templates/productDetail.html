@@ -156,30 +156,15 @@
             </a>
         </div>
 
-
-        <div class="productReviewContentPart" th:each="review : ${product.reviews}">
-            <div class="productReviewItem">
-                <div class="productReviewItemDesc">
-                    <div class="productReviewItemContent" th:text="${review.content}">
-                    </div>
-                    <div class="productReviewItemDate">
-                        <!--
-
-
-                        <fmt:formatDate value="${r.createDate}" pattern="yyyy-MM-dd"/></div>
-
-                         -->
-                    </div>
-                    <div class="productReviewItemUserInfo">
-
-                        ${r.user.anonymousName}<span class="userInfoGrayPart">（匿名）</span>
-                    </div>
-
-                    <div style="clear:both"></div>
-                </div>
+        <div class="reviewDivlistReviewsEach" th:each="review : ${product.reviews}">
+            <div class="productReviewItemDate" th:text="${review.createDate}">
             </div>
-
+            <div class="reviewContent" th:text="${review.content}">${r.content}</div>
+            <div class="reviewUserInfo pull-right" th:text="${review.user.name}">
+                ${r.user.anonymousName}<span class="reviewUserInfoAnonymous">(匿名)</span>
+            </div>
         </div>
+
     </div>
 
 
@@ -208,7 +193,6 @@
 							</span>
                         <input id="password" name="password" type="password" placeholder="密码"/>
                     </div>
-                    <span class="text-danger">不要输入真实的天猫账号密码</span><br/><br/>
                     <div>
                         <a href="#nowhere">忘记登录密码</a>
                         <a href="register.jsp" class="pull-right">免费注册</a>

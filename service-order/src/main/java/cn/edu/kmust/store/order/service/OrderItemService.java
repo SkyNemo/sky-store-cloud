@@ -10,7 +10,7 @@ public interface OrderItemService {
 
     OrderItemVo getOrderItemVoByUserIdAndProductIdAndNumber(Integer userId,Integer productId,Integer number);
 
-    List<OrderItemVo> getOrderItemVoListByOrderItemListId(String[] orderItemIds);
+    List<OrderItemVo> getOrderItemVoListByOrderItemIds(String[] orderItemIds);
 
     List<OrderItemVo> getOrderItemVoListByUserIdAndOrderId(Integer userId, Integer orderId);
 
@@ -19,4 +19,5 @@ public interface OrderItemService {
     boolean changeOrderItem(Integer userId, Integer productId,Integer number);
 
     Integer countProductSale(Integer productId);
+
 }

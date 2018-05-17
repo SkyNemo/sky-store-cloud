@@ -113,13 +113,18 @@
                             class="orderListItemButtonTD orderItemOrderInfoPartTD" width="100px">
 
 
-                            <a href="#" th:if="${order.status} eq 'waitConfirm'">
+                            <a  th:if="${order.status} eq 'waitConfirm'"
+                                th:href="@{'/service-order/confirmReceipt/' + ${order.id} }">
                                 <button class="orderListItemConfirm">确认收货</button>
                             </a>
 
 
                             <a href="#" th:if="${order.status} eq 'waitPay'">
-                                <button class="orderListItemConfirm">付款</button>
+
+                                <form id="buyForm" th:action="@{/service-order/orderToBuy}" method="post">
+                                    <input  type="hidden" th:value="${order.id}" th:name="orderId"/>
+                                    <button class="orderListItemConfirm">付款</button>
+                                </form>
                             </a>
 
                             <div th:if="${order.status} eq 'waitDelivery'">

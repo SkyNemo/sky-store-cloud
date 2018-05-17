@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 @Transactional
@@ -64,7 +65,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public List<OrderItemVo> getOrderItemVoListByOrderItemListId(String[] orderItemIds) {
+    public List<OrderItemVo> getOrderItemVoListByOrderItemIds(String[] orderItemIds) {
 
         List<OrderItemVo> orderItemVos = new ArrayList<OrderItemVo>();
 
@@ -193,5 +194,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         return count;
     }
+
 
 }

@@ -51,6 +51,8 @@ public class ProductController {
     @RequestMapping("/")
     public String productList(Model model) {
 
+
+        // 获取首页按分类（CategoryHomeVo）显示商品
         List<CategoryHomeVo> categoryHomeVos = productService.getAllCategoryHomeVoList();
 
         model.addAttribute("categories", categoryHomeVos);
@@ -59,16 +61,15 @@ public class ProductController {
     }
 
 
+
+    /*
+    * 根据商品id获取商品信息
+    * */
     @RequestMapping("/product/{id}")
     @ResponseBody
     public ProductDto findProductById(@PathVariable Integer id) {
 
         ProductDto productDto = productService.getProductDtoById(id);
-
-        if (productDto != null){
-            System.out.println(productDto.getProductImageId());
-        }
-
 
         return productDto;
     }

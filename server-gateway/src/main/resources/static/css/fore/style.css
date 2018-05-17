@@ -442,6 +442,8 @@ div.license span {
 div.simpleLogo {
 	margin: 0px auto;
 	padding: 32px 0px;
+	text-align: center;
+	display:table-cell;
 }
 
 img.loginBackgroundImg {

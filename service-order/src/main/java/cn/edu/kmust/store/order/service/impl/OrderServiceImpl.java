@@ -46,7 +46,6 @@ public class OrderServiceImpl implements OrderService {
 
         BeanUtils.copyProperties(orderParam, order);
 
-        System.out.println(order);
 
         String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(0, 10000);
 
@@ -205,11 +204,8 @@ public class OrderServiceImpl implements OrderService {
 
         OrderDto orderDto = null;
 
-        System.out.println("206----------------");
 
         if (order != null) {
-
-            System.out.println("210----------------");
 
             orderDto = new OrderDto();
 
@@ -221,13 +217,10 @@ public class OrderServiceImpl implements OrderService {
 
             if (orderItemList != null && !orderItemList.isEmpty()) {
 
-                System.out.println("222----------------");
 
                 orderItemVoList = new ArrayList<>();
 
                 for (OrderItem orderItem : orderItemList) {
-
-                    System.out.println("228----------------");
 
                     OrderItemVo orderItemVo = new OrderItemVo();
 
@@ -250,12 +243,13 @@ public class OrderServiceImpl implements OrderService {
         return orderDto;
     }
 
+
     @Override
     public boolean finishOrder(Integer id) {
 
         Order order = orderRepository.findOne(id);
 
-        if (order != null){
+        if (order != null) {
 
             order.setStatus(OrderService.FINISH);
 
@@ -264,9 +258,79 @@ public class OrderServiceImpl implements OrderService {
             return true;
 
         }
+        return false;
+    }
 
+
+    @Override
+    public boolean confirmReceipt(Integer orderId) {
+
+        Order order = orderRepository.findOne(orderId);
+
+        if (order != null) {
+            order.setStatus(OrderService.WAIT_REVIEW);
+
+            orderRepository.save(order);
+
+            return true;
+        }
 
         return false;
+    }
+
+    @Override
+    public OrderVo findByOrderId(Integer orderId) {
+
+
+        OrderVo orderVo = new OrderVo();
+
+        Order order = orderRepository.findOne(orderId);
+
+        float total = 0;
+
+        if (order != null) {
+
+            BeanUtils.copyProperties(order, orderVo);
+
+            List<OrderItem> orderItemList = orderItemRepository.findByOrderId(orderId);
+
+            List<OrderItemVo> orderItemVoList = new ArrayList<>();
+
+            if (orderItemList != null && !orderItemList.isEmpty()) {
+
+                for (OrderItem orderItem : orderItemList) {
+
+                    OrderItemVo orderItemVo = new OrderItemVo();
+
+                    BeanUtils.copyProperties(orderItem, orderItemVo);
+
+
+                    Integer number = orderItem.getNumber();
+
+                    Product product = productFeignClient.findProductById(orderItem.getProductId());
+
+                    orderItemVo.setProduct(product);
+
+
+                    orderItemVo.setTotal(product.getPromotePrice() * number);
+
+                    total += product.getPromotePrice() * number;
+
+                    orderItemVoList.add(orderItemVo);
+
+                }
+
+
+            }
+
+            orderVo.setOrderItemVos(orderItemVoList);
+
+
+        }
+
+        orderVo.setTotal(total);
+
+        return orderVo;
     }
 
 

@@ -4,7 +4,9 @@ spring:
   boot:
     admin:
       routes:
+        #配置节点
         endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+      # 配置turbine信息
       turbine:
         clusters: default
         location: server-turbine
@@ -17,7 +19,6 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
-
 endpoints:
   health:
     sensitive: false
@@ -28,13 +29,9 @@ endpoints:
   beans:
     sensitive: false
     enabled: true
-
-
-
 management:
   security:
     enabled: false
-
 server:
   port: 5000
 #security.basic.enabled: false
@@ -42,7 +39,6 @@ server:
 #  user:
 #    name: admin
 #    password: 123456
-
 logging:
   file: "logs/boot-admin-sample.log"
 

@@ -27,6 +27,7 @@
 
 	<dependencies>
 
+		<!--引入Spring Cloud整合Eureka相关jar包-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka-server</artifactId>

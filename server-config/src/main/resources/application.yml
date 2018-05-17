@@ -15,6 +15,7 @@ spring:
           # Git仓库密码
           password:
           clone-on-start: true
+          timeout: 10
     bus:
       trace:
         enabled: true
@@ -23,6 +24,7 @@ spring:
     port: 5672
     username: guest
     password: guest
+
 eureka:
   client:
     serviceUrl:

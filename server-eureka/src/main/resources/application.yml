@@ -1,13 +1,19 @@
 server:
+  #设置端口
   port: 8761
 eureka:
   client:
+    # 防止Eureka自注册
     register-with-eureka: false
+    # 表示是否从Eureka获取注册信息
     fetch-registry: false
+    # 设置Eureka Client与Eureka Server交互的地址
     service-url:
       default-zone: http://localhost:8671/eureka/
   server:
+    # 关闭自我保护模式
     enable-self-preservation: false
 spring:
   application:
+    # 设置微服务名称
     name: server-eureka

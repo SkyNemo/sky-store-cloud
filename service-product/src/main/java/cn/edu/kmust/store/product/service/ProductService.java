@@ -1,7 +1,5 @@
 package cn.edu.kmust.store.product.service;
 
-import cn.edu.kmust.store.product.entity.Category;
-import cn.edu.kmust.store.product.entity.Product;
 import cn.edu.kmust.store.product.param.CategoryHomeVo;
 import cn.edu.kmust.store.product.param.ProductDetailVo;
 import cn.edu.kmust.store.product.param.ProductDto;
