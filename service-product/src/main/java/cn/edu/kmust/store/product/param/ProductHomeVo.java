@@ -1,7 +1,5 @@
 package cn.edu.kmust.store.product.param;
 
-import cn.edu.kmust.store.product.entity.ProductImage;
-
 public class ProductHomeVo {
 
 
@@ -13,6 +11,16 @@ public class ProductHomeVo {
 
     private String subTitle;
 
+
+    private Integer categoryId;
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
     /*
      * 关联的 firstProductImage

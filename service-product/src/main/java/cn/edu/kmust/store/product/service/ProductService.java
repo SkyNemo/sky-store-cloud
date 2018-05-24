@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    int BLOCK_SIZE = 8;
+    int BLOCK_SIZE = 7;
 
     ProductDetailVo getProductDetailVoById(Integer productId);
 
@@ -16,8 +16,9 @@ public interface ProductService {
 
     void setProductDetailVoPropertyAndValue(ProductDetailVo productDetailVo);
 
-    List<CategoryHomeVo> getAllCategoryHomeVoList();
 
     ProductDto getProductDtoById(Integer productId);
+
+    List<CategoryHomeVo> getAllCategoryHomeVoImprove();
 
 }

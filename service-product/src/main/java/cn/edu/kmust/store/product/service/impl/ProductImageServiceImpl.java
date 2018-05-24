@@ -6,6 +6,7 @@ import cn.edu.kmust.store.product.param.ProductImageDto;
 import cn.edu.kmust.store.product.param.ProductImageVo;
 import cn.edu.kmust.store.product.repository.ProductImageRepository;
 import cn.edu.kmust.store.product.service.ProductImageService;
+import cn.edu.kmust.store.product.util.VoUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,21 +31,36 @@ public class ProductImageServiceImpl implements ProductImageService {
         // 1.设置detail图片
         List<ProductImage> detailImageList = this.getDetailProductImageByProductId(productDetailVo.getId());
 
-        List<ProductImageVo> detailImageVoList = new ArrayList<>();
+        List<ProductImageVo> detailImageVoList =  VoUtils.copyList(detailImageList,ProductImageVo.class);
 
-        if (detailImageList != null && !detailImageList.isEmpty()) {
 
-            for (ProductImage productImage : detailImageList) {
 
-                ProductImageVo productImageVo = new ProductImageVo();
-                BeanUtils.copyProperties(productImage, productImageVo);
-                detailImageVoList.add(productImageVo);
-            }
-        } else {
+        if (detailImageVoList == null ||detailImageVoList.isEmpty()){
+
             ProductImageVo productImageVo = new ProductImageVo();
             productImageVo.setId(-1);
             detailImageVoList.add(productImageVo);
+
         }
+
+
+//        List<ProductImageVo> detailImageVoList = new ArrayList<>();
+
+
+
+//        if (detailImageList != null && !detailImageList.isEmpty()) {
+//
+//            for (ProductImage productImage : detailImageList) {
+//
+//                ProductImageVo productImageVo = new ProductImageVo();
+//                BeanUtils.copyProperties(productImage, productImageVo);
+//                detailImageVoList.add(productImageVo);
+//            }
+//        } else {
+//            ProductImageVo productImageVo = new ProductImageVo();
+//            productImageVo.setId(-1);
+//            detailImageVoList.add(productImageVo);
+//        }
 
         productDetailVo.setDetailImages(detailImageVoList);
 
