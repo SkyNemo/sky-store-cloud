@@ -25,6 +25,11 @@ public interface UserFeignClient {
 class UserClientFallback implements UserFeignClient {
     @Override
     public User findUserById(Integer userId) {
-        return null;
+
+        User user = new User();
+        user.setId(-1);
+        user.setName("默认");
+        return user;
+
     }
 }

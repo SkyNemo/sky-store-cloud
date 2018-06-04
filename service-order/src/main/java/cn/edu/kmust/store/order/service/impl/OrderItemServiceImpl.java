@@ -33,6 +33,10 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Resource
     private ProductFeignClient productFeignClient;
 
+
+    /**
+     * 创建订单项
+     */
     @Override
     public OrderItemVo getOrderItemVoByUserIdAndProductIdAndNumber(Integer userId, Integer productId, Integer number) {
 
@@ -43,13 +47,15 @@ public class OrderItemServiceImpl implements OrderItemService {
             return null;
         }
 
-        //查看该订单项是否存在
+        // 查看该订单项是否存在
         OrderItem orderItem = orderItemRepository.findByUserIdAndProductIdAndOrderIdNull(userId, productId);
 
         if (orderItem != null) {
+            // 订单项已存在，更新商品数量
             orderItem.setNumber(orderItem.getNumber() + number);
             orderItemRepository.save(orderItem);
         } else {
+            // 订单项不存在，创建新的订单项
             orderItem = new OrderItem();
             orderItem.setUserId(userId);
             orderItem.setProductId(product.getId());
@@ -57,8 +63,8 @@ public class OrderItemServiceImpl implements OrderItemService {
             orderItemRepository.save(orderItem);
         }
 
+        // 构建订单项Vo，返回Vo
         OrderItemVo orderItemVo = new OrderItemVo();
-
         BeanUtils.copyProperties(orderItem, orderItemVo);
 
         return orderItemVo;
@@ -81,9 +87,13 @@ public class OrderItemServiceImpl implements OrderItemService {
                 if (product != null) {
 
                     total += total + orderItem.getNumber() * product.getPromotePrice();
+
                     BeanUtils.copyProperties(orderItem, orderItemVo);
+
                     orderItemVo.setProduct(product);
+
                     orderItemVos.add(orderItemVo);
+
                     orderItemVo.setTotal(total);
                 }
             }
@@ -109,10 +119,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 
                 OrderItemVo orderItemVo = new OrderItemVo();
 
-                System.out.println(orderItem.getProductId());
-
-                LOGGER.info("" + orderItem.getProductId());
-
                 Product product = productFeignClient.findProductById(orderItem.getProductId());
 
                 if (product != null) {
@@ -134,7 +140,7 @@ public class OrderItemServiceImpl implements OrderItemService {
                     orderItemVoList.add(orderItemVo);
                 }
 
-                System.out.println("106------------------");
+                LOGGER.info("创建订单项成功，订单项Id");
 
             }
 
@@ -143,6 +149,9 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemVoList;
     }
 
+    /**
+     * 删除订单项
+     * */
     @Override
     public void deleteOrderItemById(Integer orderItemId) {
 
@@ -151,8 +160,8 @@ public class OrderItemServiceImpl implements OrderItemService {
             orderItemRepository.delete(orderItemId);
         }
 
-
     }
+
 
     @Override
     public boolean changeOrderItem(Integer userId, Integer productId, Integer number) {
@@ -187,12 +196,29 @@ public class OrderItemServiceImpl implements OrderItemService {
         return true;
     }
 
+
+
+    /**
+     * 返回销量信息
+     * */
     @Override
     public Integer countProductSale(Integer productId) {
 
-        Integer count = orderItemRepository.countByProductId(productId);
+
+        List<OrderItem> orderItemList = orderItemRepository.findByProductIdAndOrderIdIsNotNull(productId);
+
+        int count = 0;
+
+        if (orderItemList != null && !orderItemList.isEmpty()){
+
+            for (OrderItem orderItem : orderItemList){
+                count += orderItem.getNumber();
+            }
+
+        }
 
         return count;
+
     }
 
 

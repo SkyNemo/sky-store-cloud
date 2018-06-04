@@ -29,7 +29,9 @@ public class OrderController {
     @Resource
     private OrderItemService orderItemService;
 
-
+    /**
+     * 立即购买
+     * */
     @RequestMapping("/buyAtOnce")
     private String buyOne(HttpServletRequest request, Model model) {
 
@@ -78,7 +80,9 @@ public class OrderController {
         return "buy";
     }
 
-
+    /**
+     * 创建订单
+     * */
     @RequestMapping("/createOrder")
     public String createOrder(OrderParam orderParam, HttpSession session, Model model) {
 
@@ -90,7 +94,7 @@ public class OrderController {
 
 
         if (orderItemVos == null || orderItemVos.size() < 0) {
-            return "error";
+            return "orderError";
         }
 
 
@@ -101,6 +105,10 @@ public class OrderController {
         orderParam.setUserId(userId);
 
         OrderVo orderVo = orderService.createOrder(orderParam, orderItemVos);
+
+        if (orderVo == null){
+            return "orderError";
+        }
 
         model.addAttribute("order", orderVo);
 
@@ -203,10 +211,6 @@ public class OrderController {
         OrderDto orderDto = orderService.getOrderDtoByOrderId(id);
 
         List<OrderItemVo> orderItemVos = orderDto.getOrderItems();
-
-        for (OrderItemVo orderItemVo : orderItemVos){
-            System.out.println(orderItemVo.getProduct().getName());
-        }
 
         return orderDto;
 

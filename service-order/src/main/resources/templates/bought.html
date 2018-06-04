@@ -54,6 +54,8 @@
                         </a>
 
                     </td>
+
+                    <!--删除按钮-->
                     <td class="orderItemDeleteTD">
                         <a class="deleteOrderLink" href="javascript:void(0);"
                            th:attrappend="oid=${order.id}">
@@ -90,7 +92,6 @@
                         <div class="orderListItemProductPrice"
                              th:text="|￥ ${#numbers.formatDecimal(orderItem.product.promotePrice, 0 ,2)}|">￥
                         </div>
-
 
                     </td>
 
@@ -211,7 +212,6 @@
 
             $('#deleteConfirmModal').on('hidden.bs.modal', function (e) {
 
-                alert(deleteOrder);
                 if (deleteOrder) {
                     var url = /*[[@{/service-order/deleteOrder}]]*/ "";
                     $.post(

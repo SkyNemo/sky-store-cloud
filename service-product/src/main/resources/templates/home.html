@@ -15,6 +15,7 @@
 
     <div class="categoryWithCarousel">
 
+        <!-- 上方分类列表 -->
         <div class="headbar show1">
             <div class="head ">
 
@@ -41,7 +42,8 @@
                 <div class="eachCategory" th:each="category : ${categories}" th:attrappend="cid=${category.id}">
 
                     <span class="glyphicon glyphicon-link"/>
-                    <a href="#" th:text="${category.name}"/>
+                    <a href="#" th:href="@{'/service-product/categoryHome/' + ${category.id} + '/sort/all' }"
+                       th:text="${category.name}"/>
 
                 </div>
             </div>

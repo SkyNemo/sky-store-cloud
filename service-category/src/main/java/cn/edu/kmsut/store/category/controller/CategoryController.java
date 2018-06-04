@@ -3,6 +3,7 @@ package cn.edu.kmsut.store.category.controller;
 
 import cn.edu.kmsut.store.category.entity.Category;
 import cn.edu.kmsut.store.category.service.CategoryService;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,20 @@ public class CategoryController {
 
         List<Category> categories = categoryService.findAllCategory();
 
+
         return categories;
+    }
+
+
+    /*
+     * 根据id返回分类
+     * */
+    @RequestMapping("/category/{id}")
+    public Category findCategoryById(@PathVariable Integer id){
+
+        Category category = categoryService.findCategoryById(id);
+
+        return category;
     }
 
 }

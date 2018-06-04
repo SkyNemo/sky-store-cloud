@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head th:include="layout :: htmlhead" th:with="title='Home'">
+    <meta charset="UTF-8"/>
+    <title>Home</title>
+
+
+</head>
+
+<body>
+
+
+<div layout:fragment="content">
+
+
+    <div class="categoryPageDiv">
+
+        <img th:src="@{'/img/category/' + ${category.id} + '.jpg'}"/>
+
+
+        <div class="categorySortBar">
+
+
+            <table class="categorySortBarTable categorySortTable">
+
+                <tr>
+
+                    <td th:class="${'all' == sort || sort == null }? 'grayColumn':''">
+                        <a th:href="@{'/service-product/categoryHome/' + ${category.id} + '/sort/all' }">
+                            默认<span class="glyphicon"></span>
+                        </a>
+                    </td>
+
+                    <td th:class="${'date'== sort}? 'grayColumn':''">
+                        <a th:href="@{'/service-product/categoryHome/' + ${category.id} + '/sort/date' }">
+                            新品<span class="glyphicon glyphicon-arrow-down"></span>
+                        </a>
+                    </td>
+
+                    <td th:class="${'price'== sort}? 'grayColumn':''">
+                        <a th:href="@{'/service-product/categoryHome/' + ${category.id} + '/sort/price' }">
+                            价格<span class="glyphicon glyphicon-arrow-up"></span>
+                        </a>
+                    </td>
+
+                </tr>
+            </table>
+
+        </div>
+
+
+        <!--产品列表-->
+        <div class="homepageCategoryProducts">
+
+            <!--<div class="eachHomepageCategoryProducts" th:each="category : ${categories}">-->
+            <div class="eachHomepageCategoryProducts">
+
+                <!--分类名-->
+                <div class="left-mark"></div>
+                <span class="categoryTitle" th:text="${category.name}">默认</span>
+
+                <br/>
+
+                <!--商品列表名-->
+                <div class="productItem" th:each="product,iterStat : ${category.productList}"
+                     th:if="${iterStat.count le 5}">
+
+                    <a th:href="@{'/service-product/' + ${product.id} }">
+                        <img width="100px"
+                             th:src="@{'/img/productSingle_middle/' + ${product.firstProductImage.id} + '.jpg'}"/>
+                    </a>
+
+                    <a class="productItemDescLink" th:href="@{'/service-product/' + ${product.id} }">
+                        <span class="productItemDesc" th:text="${#strings.abbreviate(product.name,20)}">默认</span>
+                    </a>
+
+                    <span class="productPrice" th:text="${#numbers.formatDecimal(product.promotePrice, 0 ,2)}"></span>
+
+                </div>
+                <div style="clear:both"></div>
+
+            </div>
+            <img id="endpng" class="endpng" src="/img/site/end.png"/>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

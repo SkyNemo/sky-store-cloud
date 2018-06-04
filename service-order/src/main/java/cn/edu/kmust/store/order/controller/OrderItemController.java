@@ -27,7 +27,7 @@ public class OrderItemController {
 
         orderItemService.deleteOrderItemById(orderItemId);
 
-        return "fa";
+        return "success";
     }
 
 
@@ -53,7 +53,7 @@ public class OrderItemController {
     }
 
 
-    @RequestMapping("/productId/{id}")
+    @RequestMapping("/sale/{id}")
     @ResponseBody
     public Integer countProductSale(@PathVariable Integer id){
 

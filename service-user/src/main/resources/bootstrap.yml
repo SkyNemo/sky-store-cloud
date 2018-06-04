@@ -26,11 +26,11 @@ eureka:
 ## INFO
 info:
   app:
-    name: '@project.artifactId@'
-    encoding: '@project.build.sourceEncoding@'
+    name: '用户微服务'
+    encoding: 'UTF-8'
     java:
-      source: '@java.version@'
-      target: '@java.version@'
+      source: '1.8.0_162'
+      target: '1.8.0_162'
 management:
   security:
     enabled: false

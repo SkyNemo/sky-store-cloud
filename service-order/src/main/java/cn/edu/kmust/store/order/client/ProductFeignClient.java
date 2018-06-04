@@ -13,6 +13,12 @@ public interface ProductFeignClient {
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     Product findProductById(@PathVariable("id") Integer id);
 
+    @RequestMapping(value = "/checkStock/product/{id}/{number}", method = RequestMethod.GET)
+    Boolean checkProductStock(@PathVariable("id") Integer id,@PathVariable("number") Integer number);
+
+    @RequestMapping(value = "/updateStock/product/{id}/{number}", method = RequestMethod.GET)
+    Boolean updateProductStock(@PathVariable("id") Integer id,@PathVariable("number") Integer number);
+
 }
 
 /**
@@ -35,4 +41,16 @@ class ProductClientFallback implements ProductFeignClient {
 
         return product;
     }
+
+
+    @Override
+    public Boolean checkProductStock(Integer id, Integer number) {
+        return false;
+    }
+
+    @Override
+    public Boolean updateProductStock(Integer id, Integer number) {
+        return null;
+    }
+
 }

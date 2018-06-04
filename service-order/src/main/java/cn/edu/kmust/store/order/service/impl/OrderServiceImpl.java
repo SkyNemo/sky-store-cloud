@@ -13,6 +13,7 @@ import cn.edu.kmust.store.order.repository.OrderRepository;
 import cn.edu.kmust.store.order.service.OrderItemService;
 import cn.edu.kmust.store.order.service.OrderService;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,10 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private ProductFeignClient productFeignClient;
 
+
+    /**
+     * 创建订单
+     */
     @Override
     public OrderVo createOrder(OrderParam orderParam, List<OrderItemVo> orderItemVoList) {
 
@@ -46,13 +51,15 @@ public class OrderServiceImpl implements OrderService {
 
         BeanUtils.copyProperties(orderParam, order);
 
-
+        // 设置订单号
         String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(0, 10000);
-
         order.setOrderCode(orderCode);
+        // 设置订单创建日期
         order.setCreateDate(LocalDateTime.now());
+        // 设置订单状态
         order.setStatus(OrderService.WAIT_PAY);
 
+        // 保存订单
         Order saveOrder = orderRepository.save(order);
 
         float total = 0;
@@ -61,11 +68,31 @@ public class OrderServiceImpl implements OrderService {
 
             OrderItem orderItem = orderItemRepository.findOne(orderItemVo.getId());
 
+            Integer productId = orderItem.getProductId();
+            Integer productNumber = orderItem.getProductId();
 
-            //判断前面的订单是否已有该订单项
+
+            // 校验库存
+            Boolean checkResult = productFeignClient.checkProductStock(productId, productNumber);
+
+            if (!checkResult){
+                continue;
+            }
+
+            // 减库存
+            Boolean updateResult = productFeignClient.updateProductStock(productId, productNumber);
+
+            if (!updateResult){
+                continue;
+            }
+
+
+
+            // 判断前面的订单是否已有该订单项
+            // 没有订单号的订单项即为购物车中的物品
             if (orderItem.getOrderId() != null) {
 
-
+                // 创建新的订单项
                 OrderItem newOrderItem = new OrderItem();
 
                 BeanUtils.copyProperties(orderItem, newOrderItem);
@@ -76,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
 
             } else {
 
-
+                // 使用之前的订单项
                 orderItem.setOrderId(saveOrder.getId());
 
                 orderItemRepository.save(orderItem);
@@ -85,6 +112,7 @@ public class OrderServiceImpl implements OrderService {
 
             //total += orderItemVo.getProduct().getPromotePrice() * orderItemVo.getNumber();
 
+            // 计算订单项价格
             total += orderItemVo.getTotal();
         }
 
@@ -93,18 +121,24 @@ public class OrderServiceImpl implements OrderService {
 
         BeanUtils.copyProperties(order, orderVo);
 
+        // 设置订单价格
         orderVo.setTotal(total);
 
         return orderVo;
     }
 
+    /**
+     * 确认付款
+     */
     @Override
     public OrderVo confirmPay(OrderParam orderParam) {
 
         Order order = orderRepository.findOne(orderParam.getId());
 
+        // 设置付款日期
         order.setPayDate(LocalDateTime.now());
 
+        // 设置订单状态
         order.setStatus(OrderService.WAIT_DELIVERY);
 
         orderRepository.save(order);
@@ -118,10 +152,11 @@ public class OrderServiceImpl implements OrderService {
         return orderVo;
     }
 
-
+    /**
+     * 根据用户id查询该用户的订单
+     */
     @Override
     public List<OrderVo> getByUserId(Integer userId) {
-
 
         List<OrderVo> orderVoList = new ArrayList<>();
 
@@ -129,10 +164,8 @@ public class OrderServiceImpl implements OrderService {
 
         if (orderList != null && orderList.size() > 0) {
 
-
             // 填充每个order的orderItem以及计算total
             for (Order order : orderList) {
-
 
                 OrderVo orderVo = new OrderVo();
                 BeanUtils.copyProperties(order, orderVo);
@@ -145,19 +178,15 @@ public class OrderServiceImpl implements OrderService {
 
                 if (orderItemList != null && orderItemList.size() > 0) {
 
-
                     for (OrderItem orderItem : orderItemList) {
-
 
                         OrderItemVo orderItemVo = new OrderItemVo();
                         BeanUtils.copyProperties(orderItem, orderItemVo);
-
 
                         //计算每个orderItem的total
                         float orderItemTotal = 0;
                         Product product = productFeignClient.findProductById(orderItemVo.getProductId());
                         if (product != null) {
-
 
                             orderItemVo.setProduct(product);
 
@@ -172,6 +201,11 @@ public class OrderServiceImpl implements OrderService {
                         orderItemVos.add(orderItemVo);
 
                     }
+                }else {
+                    // 订单下没有订单项
+                    // 删除该订单
+                    orderRepository.delete(order);
+                    continue;
                 }
 
                 orderVo.setTotal(orderTotal);
@@ -186,6 +220,10 @@ public class OrderServiceImpl implements OrderService {
         return orderVoList;
     }
 
+
+    /**
+     * 删除订单
+     */
     @Override
     public void deleteOrder(Integer id) {
 
@@ -197,6 +235,9 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    /**
+     * 根据订单id返回Dto
+     */
     @Override
     public OrderDto getOrderDtoByOrderId(Integer orderId) {
 
@@ -204,7 +245,7 @@ public class OrderServiceImpl implements OrderService {
 
         OrderDto orderDto = null;
 
-
+        // 订单不为空 封装Dto
         if (order != null) {
 
             orderDto = new OrderDto();
@@ -213,10 +254,10 @@ public class OrderServiceImpl implements OrderService {
 
             BeanUtils.copyProperties(order, orderDto);
 
+            // 封装每个订单项
             List<OrderItem> orderItemList = orderItemRepository.findByOrderId(orderId);
 
             if (orderItemList != null && !orderItemList.isEmpty()) {
-
 
                 orderItemVoList = new ArrayList<>();
 
@@ -243,7 +284,9 @@ public class OrderServiceImpl implements OrderService {
         return orderDto;
     }
 
-
+    /**
+     * 结束订单
+     */
     @Override
     public boolean finishOrder(Integer id) {
 
@@ -261,7 +304,9 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
-
+    /**
+     * 确认收货
+     */
     @Override
     public boolean confirmReceipt(Integer orderId) {
 
@@ -278,6 +323,9 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
+    /**
+     * 根据订单id返回订单
+     */
     @Override
     public OrderVo findByOrderId(Integer orderId) {
 

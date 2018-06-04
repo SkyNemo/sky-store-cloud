@@ -1,5 +1,7 @@
 package cn.edu.kmust.store.product.param;
 
+import java.time.LocalDateTime;
+
 public class ProductHomeVo {
 
 
@@ -11,8 +13,26 @@ public class ProductHomeVo {
 
     private String subTitle;
 
-
     private Integer categoryId;
+
+    private LocalDateTime createDate;
+
+
+    /*
+     * 关联的 firstProductImage
+     * */
+    private ProductImageVo firstProductImage;
+
+
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
 
     public Integer getCategoryId() {
         return categoryId;
@@ -21,12 +41,6 @@ public class ProductHomeVo {
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
-
-    /*
-     * 关联的 firstProductImage
-     * */
-    private ProductImageVo firstProductImage;
-
 
     public String getSubTitle() {
         return subTitle;

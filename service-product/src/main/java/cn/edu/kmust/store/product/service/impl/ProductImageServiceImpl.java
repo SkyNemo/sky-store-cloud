@@ -31,11 +31,10 @@ public class ProductImageServiceImpl implements ProductImageService {
         // 1.设置detail图片
         List<ProductImage> detailImageList = this.getDetailProductImageByProductId(productDetailVo.getId());
 
-        List<ProductImageVo> detailImageVoList =  VoUtils.copyList(detailImageList,ProductImageVo.class);
+        List<ProductImageVo> detailImageVoList = VoUtils.copyList(detailImageList, ProductImageVo.class);
 
 
-
-        if (detailImageVoList == null ||detailImageVoList.isEmpty()){
+        if (detailImageVoList == null || detailImageVoList.isEmpty()) {
 
             ProductImageVo productImageVo = new ProductImageVo();
             productImageVo.setId(-1);
@@ -45,7 +44,6 @@ public class ProductImageServiceImpl implements ProductImageService {
 
 
 //        List<ProductImageVo> detailImageVoList = new ArrayList<>();
-
 
 
 //        if (detailImageList != null && !detailImageList.isEmpty()) {
@@ -79,7 +77,7 @@ public class ProductImageServiceImpl implements ProductImageService {
                 singleImageVoList.add(productImageVo);
             }
 
-        }else {
+        } else {
             ProductImageVo productImageVo = new ProductImageVo();
             productImageVo.setId(-1);
             singleImageVoList.add(productImageVo);
@@ -91,7 +89,6 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     }
 
-    @Override
     public List<ProductImage> getDetailProductImageByProductId(Integer productId) {
 
         List<ProductImage> productImageList = productImageRepository
@@ -100,7 +97,6 @@ public class ProductImageServiceImpl implements ProductImageService {
         return productImageList;
     }
 
-    @Override
     public List<ProductImage> getSingleProductImageByProductId(Integer productId) {
         List<ProductImage> productImageList = productImageRepository
                 .findByProductIdAndTypeOrderByIdDesc(productId, ProductImageService.TYPE_SINGLE);

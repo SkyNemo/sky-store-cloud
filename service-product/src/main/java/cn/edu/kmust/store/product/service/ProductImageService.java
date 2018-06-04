@@ -14,11 +14,6 @@ public interface ProductImageService {
 
     void setProductDetailVoImage(ProductDetailVo productDetailVo);
 
-    List<ProductImage> getDetailProductImageByProductId(Integer productId);
-
-
-    List<ProductImage> getSingleProductImageByProductId(Integer productId);
-
     ProductImageDto getProductImageById(Integer id);
 
 }

@@ -17,3 +17,9 @@ spring:
   application:
     # 设置微服务名称
     name: server-eureka
+security:
+  basic:
+    enabled: false
+  #user:
+    #name:
+    #password:

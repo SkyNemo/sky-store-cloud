@@ -7,17 +7,13 @@ import java.util.List;
 
 public class VoUtils<T, E> {
 
-
     public static <T, E> List<E> copyList(List<T> sourceList, Class<E> targetClass) {
-
 
         List<E> voList = new ArrayList<>();
 
         if (sourceList != null && !sourceList.isEmpty()) {
 
             for (T t : sourceList) {
-                System.out.println(sourceList.size());
-
                 try {
 
                     E e = targetClass.newInstance();
